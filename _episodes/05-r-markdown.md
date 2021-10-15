@@ -431,7 +431,11 @@ First we're going to start out with a few questions about the gapminder dataset.
 > 
 > 
 > ~~~
+<<<<<<< HEAD
+> ── Column specification ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+=======
 > ── Column specification ────────────────────────────────────────────────────────
+>>>>>>> gh-pages
 > Delimiter: ","
 > chr (2): country, continent
 > dbl (4): year, pop, lifeExp, gdpPercap
