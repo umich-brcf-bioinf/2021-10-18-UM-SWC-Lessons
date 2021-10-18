@@ -129,8 +129,8 @@ where `verb` is what we actually want to do and `options` is additional optional
 Riley sets up their new laptop:
 
 ```
-$ git config --global user.name "Riley Shor"
-$ git config --global user.email "Riley.Shor@fake.email.address"
+git config --global user.name "Riley Shor"
+git config --global user.email "Riley.Shor@fake.email.address"
 ```
 {: .language-bash}
 
@@ -178,14 +178,14 @@ For these lessons, we will be interacting with [GitHub](https://github.com/) and
 > On macOS and Linux:
 >
 > ```
-> $ git config --global core.autocrlf input
+> git config --global core.autocrlf input
 > ```
 > {: .language-bash}
 >
 > And on Windows:
 >
 > ```
-> $ git config --global core.autocrlf true
+> git config --global core.autocrlf true
 > ```
 > {: .language-bash}
 >
@@ -193,14 +193,14 @@ For these lessons, we will be interacting with [GitHub](https://github.com/) and
 This optional setting will make a downstream step with GitHub a bit clearer.
 
 ```
-$ git config --global init.defaultBranch main
+git config --global init.defaultBranch main
 ```
 {: .language-bash}
 
 Riley also has to set their favorite text editor, nano.
 
 ```
-$ git config --global core.editor "nano -w"
+git config --global core.editor "nano -w"
 ```
 {: .language-bash}
 
@@ -240,7 +240,7 @@ to use the settings for every project, in your user account, on this computer.
 You can check your global settings at any time:
 
 ```
-$ git config --global --list
+git config --global --list
 ```
 {: .language-bash}
 
@@ -254,16 +254,16 @@ same commands to choose another editor or update your email address.
 > may also need to tell Git about the proxy:
 >
 > ```
-> $ git config --global http.proxy proxy-url
-> $ git config --global https.proxy proxy-url
+> git config --global http.proxy proxy-url
+> git config --global https.proxy proxy-url
 > ```
 > {: .language-bash}
 >
 > To disable the proxy, use
 >
 > ```
-> $ git config --global --unset http.proxy
-> $ git config --global --unset https.proxy
+> git config --global --unset http.proxy
+> git config --global --unset https.proxy
 > ```
 > {: .language-bash}
 {: .callout}
@@ -273,8 +273,8 @@ same commands to choose another editor or update your email address.
 > Always remember that if you forget a `git` command, you can access the list of commands by using `-h` and access the Git manual by using `--help` :
 >
 > ```
-> $ git config -h
-> $ git config --help
+> git config -h
+> git config --help
 > ```
 > {: .language-bash}
 >
@@ -293,10 +293,10 @@ we will create a new project directory called `cheatsheets` inside our home
 directory:
 
 ```
-$ cd # cd by itself changes to the home directory
-$ mkdir cheatsheets
-$ cd cheatsheets
-$ pwd
+cd # cd by itself changes to the home directory
+mkdir cheatsheets
+cd cheatsheets
+pwd
 ```
 {: .language-bash}
 
@@ -310,7 +310,7 @@ a few bash commands we learned so far. We'll use
 `nano` to edit the file (but you can use whatever text editor you like).
 
 ```
-$ nano bash-cheatsheet.txt
+nano bash-cheatsheet.txt
 ```
 {: .language-bash}
 
@@ -324,7 +324,7 @@ SWC-Workshop
 Let's first verify that the file was properly created by running the list command (`ls`):
 
 ```
-$ ls
+ls
 ```
 {: .language-bash}
 
@@ -337,7 +337,7 @@ Now we tell Git to make the `cheatsheets` into a [repository]({{ page.root }}{% 
 -- a place where Git can store versions of our files:
 
 ```
-$ git init
+git init
 ```
 {: .language-bash}
 
@@ -358,7 +358,7 @@ If we use `ls` to show the directory's contents,
 it appears that nothing has changed:
 
 ```
-$ ls
+ls
 ```
 {: .language-bash}
 
@@ -366,7 +366,7 @@ But if we add the `-a` flag to show everything,
 we can see that Git has created a hidden directory within `cheatsheets` called `.git`:
 
 ```
-$ ls -a -F
+ls -a -F
 ```
 {: .language-bash}
 
@@ -384,7 +384,7 @@ We can check that everything is set up correctly
 by asking Git to tell us the status of our project:
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 ```
@@ -409,7 +409,7 @@ is not yet part of the repository. We use a separate command to tell git to add
 files to the repository.
 
 ```
-$ git add bash-cheatsheet.txt
+git add bash-cheatsheet.txt
 ```
 {: .language-bash}
 
@@ -417,7 +417,7 @@ Git does output any message, but you can check that the file has been added
 as a new file with the `git status` command.
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 ```
@@ -432,7 +432,7 @@ The file is ready or _staged_, but to actually take the snapshot of this version
 we have to execute one last command:
 
 ```
-$ git commit -m'Added Bash cheatsheet'
+git commit -m'Added Bash cheatsheet'
 ```
 {: .language-bash}
 ```
@@ -444,7 +444,7 @@ $ git commit -m'Added Bash cheatsheet'
 We can see that the repository matches the current contents of the directory like so:
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 ```
@@ -459,7 +459,7 @@ let's execute this sequence once more below.
 
 
 ```
-$ nano bash-cheatsheet.txt
+nano bash-cheatsheet.txt
 ```
 {: .language-bash}
 
@@ -477,7 +477,7 @@ ls : list directory contents
 ```
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 ```
@@ -495,8 +495,8 @@ Note that Git recognizes the file was changed since the last commit.
 We will `add` and `commit` these new changes.
 
 ```
-$ git add
-$ git commit -m'Added basic commands'
+git add
+git commit -m'Added basic commands'
 ```
 {: .language-bash}
 ```
@@ -508,7 +508,7 @@ $ git commit -m'Added basic commands'
 And again checking `status`, Git shows that the repository's current version
 matches the directory contents.
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 ```
@@ -567,22 +567,22 @@ commands to view and manage version history of the repository.
 We'll start by creating a new project related to the plots you created earlier.
 
 ```
-$ cd # cd by itself changes to the home directory
-$ mkdir un-report-readme
-$ cd un-report-readme
-$ pwd
+cd # cd by itself changes to the home directory
+mkdir un-report-readme
+cd un-report-readme
+pwd
 ```
 {: .language-bash}
 
 ```
-$ /home/USERNAME/Desktop/un-report-readme
+/home/USERNAME/Desktop/un-report-readme
 ```
 {: .output}
 
 What should `git status` return on a brand new directory?
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 ```
@@ -593,7 +593,7 @@ fatal: not a git repository (or any of the parent directories): .git
 So we initialize the repository:
 
 ```
-$ git init
+git init
 ```
 {: .language-bash}
 
@@ -607,7 +607,7 @@ some of the plots we created earlier. We'll use
 `nano` to edit the file (but you can use whatever text editor you like).
 
 ```
-$ nano README.md
+nano README.md
 ```
 {: .language-bash}
 
@@ -622,9 +622,9 @@ Riley.Shor@fake.email.address
 And `add` and `commit` that new file:
 
 ```
-$ git add
-$ git commit -m'Added README'
-$ git status
+git add
+git commit -m'Added README'
+git status
 ```
 {: .language-bash}
 
@@ -650,8 +650,8 @@ Scripts to read and interpret gapminder data.
 ```
 
 ```
-$ git add
-$ git commit -m'Added a summary of the project'
+git add
+git commit -m'Added a summary of the project'
 ```
 {: .language-bash}
 
@@ -672,8 +672,8 @@ the relationship of GDP and life expectancy across countries.
 ```
 
 ```
-$ git add
-$ git commit -m'Updated summary with details on figures'
+git add
+git commit -m'Updated summary with details on figures'
 ```
 {: .language-bash}
 
@@ -684,7 +684,7 @@ $ git commit -m'Updated summary with details on figures'
 {: .output}
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 
@@ -698,7 +698,7 @@ nothing to commit, working tree clean
 Every time you commit a change, Git takes a snapshot of the file. You can see
 the full list of snapshots with `git log`.
 ```
-$ git log
+git log
 ```
 {: .language-bash}
 
@@ -736,7 +736,7 @@ Often times, a shorter log format is just as useful and easier to read. The
 `--oneline` flag simply shows an abbreviated identifier and the commit comment.
 
 ```
-$ git log --oneline
+git log --oneline
 ```
 {: .language-bash}
 
@@ -753,7 +753,7 @@ can see more info on a specific commit with `git show`  followed by one of the
 commit identifiers from `log` command above:
 
 ```
-$ git show 4fec7ab0937addcdebf41962f797bcd92fd1295b
+git show 4fec7ab0937addcdebf41962f797bcd92fd1295b
 ```
 {: .language-bash}
 
@@ -810,7 +810,7 @@ we'll break it down into pieces:
 
 This command shows the latest commit using an abbreviated commit identifier:
 ```
-$ git show a6669c4
+git show a6669c4
 ```
 {: .language-bash}
 ```
@@ -871,7 +871,7 @@ figures : plots
 Check that there is a difference between the working copy and the last repo:
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 
@@ -890,7 +890,7 @@ See the actual differences between the working copy of the file and the last
 commit with  `git diff`:
 
 ```
-$ git diff README.md
+git diff README.md
 ```
 {: .language-bash}
 
@@ -916,8 +916,8 @@ Sometimes you realize you want to undo a change after you have added the file.
 change to the staging area:
 
 ```
-$ git add README.md
-$ git status
+git add README.md
+git status
 ```
 {: .language-bash}
 
@@ -933,8 +933,8 @@ The `git restore --staged` command "unstages" the change, keeping the changes in
 the working file.
 
 ```
-$ git restore --staged README.md
-$ cat README.md
+git restore --staged README.md
+cat README.md
 ```
 {: .language-bash}
 
@@ -955,7 +955,7 @@ figures : plots
 
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 
@@ -974,8 +974,8 @@ You can use `git restore --staged` to abandon the working changes and replace wi
 version from the last commit:
 
 ```
-$ git restore --staged README.md
-$ git status
+git restore --staged README.md
+git status
 ```
 {: .language-bash}
 
@@ -983,8 +983,8 @@ At times, it might make sense to abandon the changes in the working copy and
 replace with the last commit.
 
 ```
-$ git restore README.md
-$ git status
+git restore README.md
+git status
 ```
 {: .language-bash}
 
@@ -1006,8 +1006,8 @@ modifications. Use some combination of `restore` or `add` and `commit` so that
 you have a clean working tree.
 
 ```
-$ git status
-$ git log --oneline
+git status
+git log --oneline
 ```
 {: .language-bash}
 
@@ -1024,7 +1024,7 @@ ac0b28a Added README
 Checkout the initial commit (will be the last in your list).
 
 ```
-$ git checkout ac0b28a
+git checkout ac0b28a
 ```
 {: .language-bash}
 
@@ -1060,8 +1060,8 @@ shows only the one change and git has replaced your working copy with the
 earliest version of this file.
 
 ```
-$ git log --oneline
-$ cat README
+git log --oneline
+cat README
 ```
 {: .language-bash}
 
@@ -1077,8 +1077,8 @@ When you are done looking, use `git checkout main` to return to the latest
 version.
 
 ```
-$ git checkout main
-$ git log --oneline
+git checkout main
+git log --oneline
 ```
 {: .language-bash}
 
@@ -1096,8 +1096,8 @@ commited, you can `revert` the change. To illustrate this, we will delete
 our README.md file, commit the change, and then revert the change.
 
 ```
-$ rm README.md
-$ git status
+rm README.md
+git status
 ```
 {: .language-bash}
 
@@ -1116,8 +1116,8 @@ no changes added to commit (use "git add" and/or "git commit -a")
 > add the change to the staging area.
 
 ```
-$ git add README.md
-$ git status
+git add README.md
+git status
 ```
 {: .language-bash}
 
@@ -1130,7 +1130,7 @@ Changes to be committed:
 {: .output}
 
 ```
-$ git commit -m'Deleted README'
+git commit -m'Deleted README'
 ```
 {: .language-bash}
 
@@ -1145,8 +1145,8 @@ $ git commit -m'Deleted README'
 > The file is not in the working directory and the Git log shows the commit that deleted it.
 
 ```
-$ ls
-$ git log --oneline
+ls
+git log --oneline
 ```
 {: .language-bash}
 
@@ -1163,7 +1163,7 @@ ac0b28a Added README
 > message and save/exit the editor.
 
 ```
-$ git revert 24c3a76
+git revert 24c3a76
 ```
 {: .language-bash}
 
@@ -1179,8 +1179,8 @@ $ git revert 24c3a76
 > to before the problem commit. Instead it creates a new change that inverts the
 > effect of the problem commit; in our case recreating the file.
 ```
-$ git log --oneline
-$ cat README.md
+git log --oneline
+cat README.md
 ```
 {: .language-bash}
 
@@ -1211,9 +1211,9 @@ explore this by versioning un-report dir we were working in earlier.
 
 
 ```
-$ cd
-$ cd un-report
-$ pwd
+cd
+cd un-report
+pwd
 ```
 {: .language-bash}
 
@@ -1225,8 +1225,8 @@ $ pwd
 > Initialize a new Git repository.
 
 ```
-$ git init
-$ git status
+git init
+git status
 ```
 {: .language-bash}
 
@@ -1251,8 +1251,8 @@ nothing added to commit but untracked files present (use "git add" to track)
 
 We can add directories in the same we added a single file.
 ```
-$ git add code
-$ git status
+git add code
+git status
 ```
 {: .language-bash}
 
@@ -1279,8 +1279,8 @@ Untracked files:
 > adding the `data` and `figures` directories. We can do this in one command:
 
 ```
-$ git add data figures
-$ git status
+git add data figures
+git status
 ```
 {: .language-bash}
 
@@ -1309,8 +1309,8 @@ Untracked files:
 > We could keep adding files, but let's commit what we have now.
 
 ```
-$ git commit -m'Added code, data, figures dirs'
-$ git status
+git commit -m'Added code, data, figures dirs'
+git status
 ```
 {: .language-bash}
 
@@ -1370,7 +1370,7 @@ the `.Rproj.user/` directory. In your text editor, create a new file named
 (suppressing it in the output).
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 
@@ -1389,8 +1389,8 @@ nothing added to commit but untracked files present (use "git add" to track)
 Finally, we'll commit those last changes.
 
 ```
-$ git add un-report.Rproj .gitignore
-$ git commit -m'Added .gitignore and R-Studio project info'
+git add un-report.Rproj .gitignore
+git commit -m'Added .gitignore and R-Studio project info'
 ```
 {: .language-bash}
 
@@ -1404,7 +1404,7 @@ $ git commit -m'Added .gitignore and R-Studio project info'
 {: .output}
 
 ```
-$ git status
+git status
 ```
 {: .language-bash}
 
@@ -1430,10 +1430,10 @@ nothing to commit, working tree clean
 A last thought about directories: Git does not track directories on their own,
 only the files within them.
 >    ```
->    $ mkdir project_background
->    $ git status
->    $ git add project_background
->    $ git status
+>    mkdir project_background
+>    git status
+>    git add project_background
+>    git status
 >    ```
 >    {: .language-bash}
 >
@@ -1445,10 +1445,10 @@ only the files within them.
 >    the repository. In fact, you can name such files anything you like.
 >
 >    ```
->    $ touch project_background/.gitkeep
->    $ git status
->    $ git add project_background
->    $ git status
+>    touch project_background/.gitkeep
+>    git status
+>    git add project_background
+>    git status
 >    ```
 >    {: .language-bash}
 
@@ -1567,12 +1567,12 @@ If SSH has been set up on the computer you're using, the public and private key 
 Since they don’t exist on Riley’s computer, she uses this command to create them:
 
 ~~~
-$ ssh-keygen -t ed25519 -C "Riley.Shor@fake.email.address"
+ssh-keygen -t ed25519 -C "Riley.Shor@fake.email.address"
 ~~~
 {: .language-bash}
 
 If you are using a legacy system that doesn't support the Ed25519 algorithm, use:
-`$ ssh-keygen -t rsa -b 4096 -C "Riley.Shor@fake.email.address"`
+`ssh-keygen -t rsa -b 4096 -C "Riley.Shor@fake.email.address"`
 
 ~~~
 Generating public/private ed25519 key pair.
@@ -1655,7 +1655,7 @@ files are located), paste your SSH key into the field, and click the "Add SSH ke
 
 Now that we’ve set that up, let’s check our authentication again from the command line.
 ~~~
-$ ssh -T git@github.com
+ssh -T git@github.com
 ~~~
 {: .language-bash}
 
@@ -1698,9 +1698,9 @@ labeled `HTTPS | SSH`; -make sure to select the SSH button-.
 This effectively does the following on GitHub's servers:
 
 ```
-$ mkdir un-report
-$ cd un-report
-$ git init
+mkdir un-report
+cd un-report
+git init
 ```
 {: .language-bash}
 
@@ -1728,7 +1728,7 @@ Copy that URL from the browser, go into the local `un-report` repository, and ru
 this command:
 
 ``  `
-$ git remote add origin git@github.com:USERNAME/un-report.git
+git remote add origin git@github.com:USERNAME/un-report.git
 ```
 {: .language-bash}
 
@@ -1742,7 +1742,7 @@ and GitHub, so it's helpful to stick with this unless there's a reason not to.
 We can check that the command has worked by running `git remote -v`:
 
 ```
-$ git remote -v
+git remote -v
 ```
 {: .language-bash}
 
@@ -1756,7 +1756,7 @@ Once the remote is set up, this command will push the changes from
 our local repository to the repository on GitHub:
 
 ```
-$ git push -u origin main
+git push -u origin main
 ```
 {: .language-bash}
 
@@ -1789,7 +1789,7 @@ Our local and remote repositories are now in this state:
 We can pull changes from the remote repository to the local one as well:
 
 ```
-$ git pull origin main
+git pull origin main
 ```
 {: .language-bash}
 
@@ -1864,7 +1864,7 @@ GitHub, though, this command would download them to our local repository.
 > > repository to your local repository, Git detects that they have histories that do not share a
 > > common origin and refuses to merge.
 > > ```
-> > $ git pull origin main
+> > git pull origin main
 > > ```
 > > {: .language-bash}
 > >
@@ -1885,7 +1885,7 @@ GitHub, though, this command would download them to our local repository.
 > > Be careful when you use this option and carefully examine the contents of local and remote
 > > repositories before merging.
 > > ```
-> > $ git pull --allow-unrelated-histories origin main
+> > git pull --allow-unrelated-histories origin main
 > > ```
 > > {: .language-bash}
 > >
@@ -1933,7 +1933,7 @@ Next, the Collaborator needs to download a copy of the Owner's repository to her
 her `Desktop` folder, the Collaborator enters:
 
 ```
-$ git clone git@github.com:USERNAME/un-report.git ~/Desktop/USERNAME-un-report
+git clone git@github.com:USERNAME/un-report.git ~/Desktop/USERNAME-un-report
 ```
 {: .language-bash}
 
@@ -1943,9 +1943,9 @@ The Collaborator can now make a change in her clone of the Owner's repository,
 exactly the same way as we've been doing before:
 
 ```
-$ cd ~/Desktop/USERNAME-un-report
-$ nano README.md
-$ cat README.md
+cd ~/Desktop/USERNAME-un-report
+nano README.md
+cat README.md
 ```
 {: .language-bash}
 
@@ -1960,8 +1960,8 @@ Dependencies:
 {: .output}
 
 ```
-$ git add README.md
-$ git commit -m "List dependencies"
+git add README.md
+git commit -m "List dependencies"
 ```
 {: .language-bash}
 
@@ -1974,7 +1974,7 @@ $ git commit -m "List dependencies"
 Then push the change to the -Owner's repository- on GitHub:
 
 ```
-$ git push origin main
+git push origin main
 ```
 {: .language-bash}
 
@@ -2001,7 +2001,7 @@ Collaborator.
 To download the Collaborator's changes from GitHub, the Owner now enters:
 
 ```
-$ git pull origin main
+git pull origin main
 ```
 {: .language-bash}
 
