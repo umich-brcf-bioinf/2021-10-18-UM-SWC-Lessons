@@ -57,6 +57,7 @@ TO-DOs:
 1. [Working with files and directories](#working-with-files-and-directories)
     + [Viewing Files](#viewing-files)
     + [Editing Files](#editing-files)
+1. [History](#history)
 1. [Glossary of terms](#glossary-of-terms)
 
 
@@ -89,10 +90,12 @@ Don’t worry - we’ll take you through how to use it step by step.
 
 The first line of the shell shows a prompt - the shell is waiting for an input.
 When you’re following along in the lesson, don’t type the prompt when typing commands.
-To make the prompt the same for all of us, run this command:
+To make the prompt the same for all of us, run these commands:
 
 ```
-PS1=’$ ‘
+PS1_A=$PS1
+PS1='$ '
+#PS1=$PS1_A # Remove the leading "#" and execute this line to restore your original prompt.
 ```
 {: .language-bash}
 
@@ -152,9 +155,14 @@ ks
 ```
 ks: command not found
 ```
-{: .output}
+{: .error}
 
 This error message tells us the command we tried to run, `ks`, is not a command that is recognized, letting us know we might have made a mistake when typing.
+
+If you ever want to cancel a command and get a fresh prompt, you can hold your `control` key and hit `c`.
+`control-c` is also how you can stop a running program.
+
+Also, you can use the command `clear` to clear your screen and get a fresh prompt.
 
 ## Man and Help
 _[Back to top](#contents)_
@@ -252,9 +260,10 @@ cd un-report
 
 We just went _down_ the directory tree again.
 
-Let's see what files are in `un-report`:
+Let's see what files are in `un-report`; add the -1 (that's the number one) to
+format the listing as a single column of files:
 ```
-ls
+ls -1
 ```
 {: .language-bash}
 
@@ -346,6 +355,32 @@ To get back to your projects directory you can use the following command:
 cd Desktop/un-report
 ```
 {: .language-bash}
+
+> An extremely powerful technique that will save tons of time is using
+> _tab completion_. As an example, go back to your home dir:
+> ```
+> cd
+> ```
+> {: .language-bash}
+> Now type `cd` followed by a space and `De` and immediately hit the `tab` key.
+> The Bash shell will find files/directories in the working directory that start with `De`.
+> If it finds a match, it will enter the match on your command line.
+> ```
+> cd Desktop/
+> ```
+> __But don't hit `Enter/Return` yet__ - instead type `un` immediately hit the `tab` key.
+> The Bash shell should autocomplete to this
+> ```
+> cd Desktop/un-report
+> ```
+> Now hit enter to execute the command to change to the new directory.
+>
+> Another very powerful technique is Bash history. Use the up-arrow and
+> down-arrow keys to review the last several commands. If you find a command
+> to re-execute, you can simply press `Enter/Return`.
+>
+> Bash history and tab-completion can save a lot of time and frustration - use them liberally!
+
 
 We have been using _relative paths_, meaning you use your current working directory to get to where you want to go.
 
@@ -465,6 +500,7 @@ Instead you can use a dash (`-`) or an underscore (`_`).
 - Don’t start names with a dash (`-`) because the shell will interpret it incorrectly.
 - Stick with letters, numbers, periods, dashes, and underscores, because other symbols (e.g. `^`, `&`) have special meanings.
 - If you have to refer to names of files or directories with whitespace or other special characters, use double quotes. For example, if you wanted to change into a directory called `My Code`, you will want to type `cd "My Code"`, not `cd My Code`.
+- Unfortunately, how upper and lower case is treated can differ across systems. Advice: assume that filesystems are case sensitive but never use case alone to differentiate two files.
 
 So how do we make our directory structure look like this?
 
@@ -573,26 +609,6 @@ mv *jpg figures
 ```
 {: .language-bash}
 
-We can also use the wildcard to list all of the files in all of the directories:
-
-```
-ls *
-```
-{: .language-bash}
-```
-code:
-gdp_population.R
-
-data:
-gapminder_1997.csv  gapminder_data.csv
-
-figures:
-awesome_plot.jpg    awesome_violin_plot.jpg
-```
-{: .output}
-
-This output shows each directory name, followed by its contents on the next line. As you can see, all of the files are now in the right place!
-
 > ## Working with Wildcards
 >
 > Suppose we are in a directory containing the following files:
@@ -635,8 +651,155 @@ This output shows each directory name, followed by its contents on the next line
 > {: .solution}
 {: .challenge}
 
+We can also use the wildcard to list all of the files in all of the directories:
+
+```
+ls *
+```
+{: .language-bash}
+```
+code:
+gdp_population.R
+
+data:
+gapminder_1997.csv  gapminder_data.csv
+
+figures:
+awesome_plot.jpg    awesome_violin_plot.jpg
+```
+{: .output}
+
+This output shows each directory name, followed by its contents on the next line. As you can see, all of the files are now in the right place!
+
+Let's look more closely at the `un-report` directory; first run this command:
+```
+ls -1 -F
+```
+{: .language-bash}
+```
+code/
+data/
+figures/
+```
+{: .output}
+
+Now use arrow-up and add an extra option `-a` to show hidden files:
+
+```
+ls -1 -F -a
+```
+{: .language-bash}
+```
+./
+../
+.Rproj.user
+code/
+data/
+figures/
+```
+{: .output}
+
+Hidden files begin with a `.`; by default they are not displayed in `ls` but
+otherwise they are just like other files. Note above that you can see `./` and
+`../` which reference the current directory and parent directory respectively.
+You can also see `.Rproj.user` which is a hidden file used by R-Studio.
+
+
+In addition to moving files, we sometimes need to create and delete them. We'll
+illustrate this process in a new directory named `temp`.
+```
+cd ~/Desktop/un-report
+mkdir temp
+cd temp
+pwd
+```
+{: .language-bash}
+
+```
+~/Desktop/un-report/temp
+```
+{: .output}
+
+The `cp` command copies files from one location (source) to another (destination).
+```
+cp ../data/gapminder_1997.csv gapminder_1997_copy.csv
+ls
+```
+{: .language-bash}
+```
+gapminder_1997_copy.csv
+```
+{: .output}
+
+The `rm` command removes (deletes) a file. Be very careful with this command
+because it is permanent and there is often no way to recover a deleted file.
+```
+rm gapminder_1997_copy.csv
+cd ..
+ls temp
+```
+{: .language-bash}
+```
+
+```
+{: .output}
+
+You can remove an empty directory with the `rmdir` command:
+
+```
+rmdir temp
+ls temp
+```
+{: .language-bash}
+
+```
+ls: temp: No such file or directory
+```
+{: .output}
+
+
 ## Viewing Files
 _[Back to top](#contents)_
+
+The command `cat` (short for concatenate) prints the entire contents of a file
+to the terminal.
+
+```
+cat data/gapminder_1997.pdf
+```
+{: .language-bash}
+
+The command `head` shows the first 10 lines of a file.
+```
+head data/gapminder_1997.pdf
+```
+{: .language-bash}
+```
+country,pop,continent,lifeExp,gdpPercap
+Afghanistan,22227415,Asia,41.763,635.341351
+Albania,3428038,Europe,72.95,3193.054604
+Algeria,29072015,Africa,69.152,4797.295051
+Angola,9875024,Africa,40.963,2277.140884
+Argentina,36203463,Americas,73.275,10967.28195
+Australia,18565243,Oceania,78.83,26997.93657
+Austria,8069876,Europe,77.51,29095.92066
+Bahrain,598561,Asia,73.925,20292.01679
+Bangladesh,123315288,Asia,59.412,972.7700352
+```
+{: .output}
+
+You can adjust the number of lines returned by `head`:
+```
+head -n 3 data/gapminder_1997.pdf
+```
+{: .language-bash}
+```
+country,pop,continent,lifeExp,gdpPercap
+Afghanistan,22227415,Asia,41.763,635.341351
+Albania,3428038,Europe,72.95,3193.054604
+```
+{: .output}
+
 
 To view and navigate the contents of a file we can use the command `less`. This will open a full screen view of the file.
 
@@ -661,11 +824,26 @@ If we say "yes", less will render the file but it will appear as a seemingly ran
 
 ![]({{ page.root }}/fig/unix-shell/less_pdf_example.png)
 
-Sometimes, commands will have multiple flags that we want to use at the same time. For example, `less` has a flag `-w` which highlights unread text, and `-S` which cuts off really long lines (rather than having the text wrap around). There are two ways to run `less` using both of these flags:
+Sometimes, commands will have multiple flags that we want to use at the same time.
 
-`less -w -S [FILE]`
+`less -M -N -S [FILE]`
 
-`less -wS [FILE]`
+or equivalently
+
+`less -MNS [FILE]`
+
+> ## Decoding options
+>
+> Execute `less -MNS data/gapminder_1997.csv`. What are some ways you could
+> understand what each of the three options in this command are doing?
+>
+> > ## Solutions
+> > 1. Compare above with `less data/gapminder_1997.csv`
+> > 2. Run each flag individually and iteratively compare with `less data/gapminder_1997.csv`
+> > 3. `man less`
+> > 4. https://explainshell.com/
+> {: .solution}
+{: .challenge}
 
 ## Editing Files
 _[Back to top](#contents)_
@@ -703,6 +881,31 @@ Great! Now as an exercise we can change the paths to write out figures.
 > {: .solution}
 {: .challenge}
 
+
+## History
+
+Earlier we mentioned that the up-arrow and down-arrow allow you to interactively
+scroll through your history of commands. Another way to repeat previous work is
+to use the `history` command to get a list of the last few hundred commands that
+have been executed, and then to use `!123` (where '123' is replaced by the
+command number) to repeat one of those commands. For example, if you type this:
+
+```
+history | tail
+```
+{: .language-bash}
+```
+  10    less figures/awesome_plot.jpg
+  11    less data/gapminder_data.csv
+  12    less -MNS data/gapminder_data.csv
+  13    nano code/gdp_population.R
+  14    history
+```
+{: .output}
+>
+then you can re-run `less -MNS data/gapminder_data.csv` simply by typing
+`!12`.
+
 ## Glossary of terms
 _[Back to top](#contents)_
 
@@ -721,3 +924,10 @@ _[Back to top](#contents)_
 - `-h/--help`: Help - argument that pulls up the help manual for a program
 - `nano`: a user-friendly text editor
 - `*`: Wildcard - matches zero of more characters in a filename
+
+
+Resources
+- https://www.kernel.org/doc/man-pages/
+- https://explainshell.com/
+- https://files.fosswire.com/2007/08/fwunixref.pdf
+- http://www.mathcs.emory.edu/~valerie/courses/fall10/155/resources/unix_cheatsheet.html
