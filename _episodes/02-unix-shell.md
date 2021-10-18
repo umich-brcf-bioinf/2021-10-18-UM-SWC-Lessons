@@ -765,13 +765,13 @@ The command `cat` (short for concatenate) prints the entire contents of a file
 to the terminal.
 
 ```
-cat data/gapminder_1997.pdf
+cat data/gapminder_1997.csv
 ```
 {: .language-bash}
 
 The command `head` shows the first 10 lines of a file.
 ```
-head data/gapminder_1997.pdf
+head data/gapminder_1997.csv
 ```
 {: .language-bash}
 ```
@@ -790,7 +790,7 @@ Bangladesh,123315288,Asia,59.412,972.7700352
 
 You can adjust the number of lines returned by `head`:
 ```
-head -n 3 data/gapminder_1997.pdf
+head -n 3 data/gapminder_1997.csv
 ```
 {: .language-bash}
 ```
