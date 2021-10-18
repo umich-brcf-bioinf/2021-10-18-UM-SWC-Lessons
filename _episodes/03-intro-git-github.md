@@ -22,7 +22,8 @@ keypoints:
 1. [Background](#background)
 1. [Setting up git](#setting-up-git)
 1. [Creating a Repository](#creating-a-repository)
-1. [Tracking Changes](#tracking-changes)
+1. [Managing versions and tracking changes](#managing-versions-and-tracking-changes)
+1. [Versioning multiple files](#versioning-multiple-files)
 1. [Intro to GitHub](#intro-to-github)
    - [SSH Background and Setup](#ssh-background-and-setup)
    - [Making a repository on GitHub and linking it to a local repository](#making-a-repository-on-github-and-linking-it-to-a-local-repository)
@@ -82,22 +83,22 @@ collaboration among different people.
 
 > ## Paper Writing
 >
-> *   Imagine you drafted an excellent paragraph for a paper you are writing, but later ruin
->     it. How would you retrieve the *excellent* version of your conclusion? Is it even possible?
+> -   Imagine you drafted an excellent paragraph for a paper you are writing, but later ruin
+>     it. How would you retrieve the -excellent- version of your conclusion? Is it even possible?
 >
-> *   Imagine you have 5 co-authors. How would you manage the changes and comments
+> -   Imagine you have 5 co-authors. How would you manage the changes and comments
 >     they make to your paper?  If you use LibreOffice Writer or Microsoft Word, what happens if
 >     you accept changes made using the `Track Changes` option? Do you have a
 >     history of those changes?
 >
 > > ## Solution
 > >
-> > *   Recovering the excellent version is only possible if you created a copy
+> > -   Recovering the excellent version is only possible if you created a copy
 > >     of the old version of the paper. The danger of losing good versions
 > >     often leads to the problematic workflow illustrated in the PhD Comics
 > >     cartoon at the top of this page.
 > >     
-> > *   Collaborative writing with traditional word processors is cumbersome.
+> > -   Collaborative writing with traditional word processors is cumbersome.
 > >     Either every collaborator has to work on a document sequentially
 > >     (slowing down the process of writing), or you have to send out a
 > >     version to all collaborators and manually merge their comments into
@@ -119,9 +120,9 @@ When we use Git on a new computer for the first time,
 we need to configure a few things. Below are a few examples
 of configurations we will set as we get started with Git:
 
-*   our name and email address,
-*   what our preferred text editor is,
-*   and that we want to use these settings globally (i.e. for every project).
+-   our name and email address,
+-   what our preferred text editor is,
+-   and that we want to use these settings globally (i.e. for every project).
 
 On a command line, Git commands are written as `git verb options`,
 where `verb` is what we actually want to do and `options` is additional optional information which may be needed for the `verb`. So here is how
@@ -236,10 +237,10 @@ your changes, press <kbd>Esc</kbd> then type `:q!` and hit <kbd>Return</kbd>.
 The four commands we just ran above only need to be run once: the flag `--global` tells Git
 to use the settings for every project, in your user account, on this computer.
 
-You can check your settings at any time:
+You can check your global settings at any time:
 
 ```
-$ git config --list
+$ git config --global --list
 ```
 {: .language-bash}
 
@@ -286,37 +287,41 @@ same commands to choose another editor or update your email address.
 ## Creating a Repository
 _[Back to top](#contents)_
 
-Once Git is configured, we can start using it.
-
-
-First, let's make sure we are in our `un-report` directory, if not we need to move into that directory:
+Once Git is configured, we can start using it. We'll start with a simple example
+to explore a few of the most important and common git commands. For this example,
+we will create a new project directory called `cheatsheets` inside our home
+directory:
 
 ```
+$ cd # cd by itself changes to the home directory
+$ mkdir cheatsheets
+$ cd cheatsheets
 $ pwd
 ```
 {: .language-bash}
 
 ```
-$ /home/USERNAME/Desktop/un-report
+/home/USERNAME/Desktop/cheatsheets
 ```
 {: .output}
 
-> To get back to your `un-report` directory you can use the following command:
->
->Mac/git-bash:
->```
->cd ~/Desktop/un-report
->```
->{: .language-bash}
->
-> On Windows' Unix subsystem for Linux:
->```
->cd c/USERNAME/Desktop/un-report
->```
->{: .language-bask}
-{: .callout}
+Let's create a file called `bash-cheatsheet.txt`. We'll write some notes about
+a few bash commands we learned so far. We'll use
+`nano` to edit the file (but you can use whatever text editor you like).
 
-What is currently in our directory?
+```
+$ nano bash-cheatsheet.txt
+```
+{: .language-bash}
+
+Type the text below into the `bash-cheatsheet.txt` file:
+
+```
+Bash cheatsheet
+SWC-Workshop
+```
+
+Let's first verify that the file was properly created by running the list command (`ls`):
 
 ```
 $ ls
@@ -324,25 +329,29 @@ $ ls
 {: .language-bash}
 
 ```
-code    data    figures
+bash-cheatsheet.txt
 ```
 {: .output}
 
-
-Now we tell Git to make `un-report` a [repository]({{ page.root }}{% link reference.md %}#repository)
+Now we tell Git to make the `cheatsheets` into a [repository]({{ page.root }}{% link reference.md %}#repository)
 -- a place where Git can store versions of our files:
-
 
 ```
 $ git init
 ```
 {: .language-bash}
 
+```
+Initialized empty Git repository in /Users/USERNAME/Desktop/cheatsheets/.git/
+```
+{: .output}
+
+
 It is important to note that `git init` will create a repository that
 includes subdirectories and their files---there is no need to create
-separate repositories nested within the `un-report` repository, whether
+separate repositories nested within the `cheatsheets` repository, whether
 subdirectories are present from the beginning or added later. Also, note
-that the creation of the `un-report` directory and its initialization as a
+that the creation of the `cheatsheets` directory and its initialization as a
 repository are completely separate processes.
 
 If we use `ls` to show the directory's contents,
@@ -354,15 +363,15 @@ $ ls
 {: .language-bash}
 
 But if we add the `-a` flag to show everything,
-we can see that Git has created a hidden directory within `un-report` called `.git`:
+we can see that Git has created a hidden directory within `cheatsheets` called `.git`:
 
 ```
-$ ls -a
+$ ls -a -F
 ```
 {: .language-bash}
 
 ```
-.	..	.git	code	data	figures
+./	 ../	 .git/	 bash-cheatsheet.txt
 ```
 {: .output}
 
@@ -379,427 +388,161 @@ $ git status
 ```
 {: .language-bash}
 ```
-On branch master
+On branch main
 
 No commits yet
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
+  bash-cheatsheet.txt
 
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 {: .output}
 
-If you are using a different version of `git`, the exact
-wording of the output might be slightly different.
+(If you are using a different version of `git`, the exact
+wording of the output might be slightly different.)
 
-> ## Places to Create Git Repositories
->
-> Along with tracking information about un-report (the project we have already created),
-> Riley would also like to track information about countries.
-> Despite our concerns, Riley creates a `countries` project inside their `un-report`
-> project with the following sequence of commands:
->
-> ```
-> $ cd ~/Desktop   # return to Desktop directory
-> $ cd un-report     # go into un-report directory, which is already a Git repository
-> $ ls -a          # ensure the .git subdirectory is still present in the un-report directory
-> $ mkdir countries    # make a subdirectory un-report/countries
-> $ cd countries       # go into countries subdirectory
-> $ git init       # make the countries subdirectory a Git repository
-> $ ls -a          # ensure the .git subdirectory is present indicating we have created a new Git repository
-> ```
-> {: .language-bash}
->
-> Is the `git init` command, run inside the `countries` subdirectory, required for
-> tracking files stored in the `countries` subdirectory?
->
-> > ## Solution
-> >
-> > No. Riley does not need to make the `countries` subdirectory a Git repository
-> > because the `un-report` repository will track all files, sub-directories, and
-> > subdirectory files under the `un-report` directory.  Thus, in order to track
-> > all information about countries, Riley only needed to add the `countries` subdirectory
-> > to the `un-report` directory.
-> >
-> > Additionally, Git repositories can interfere with each other if they are "nested":
-> > the outer repository will try to version-control
-> > the inner repository. Therefore, it's best to create each new Git
-> > repository in a separate directory. To be sure that there is no conflicting
-> > repository in the directory, check the output of `git status`. If it looks
-> > like the following, you are good to go to create a new repository as shown
-> > above:
-> >
-> > ```
-> > $ git status
-> > ```
-> > {: .language-bash}
-> > ```
-> > fatal: Not a git repository (or any of the parent directories): .git
-> > ```
-> > {: .output}
-> {: .solution}
-{: .challenge}
-> ## Correcting `git init` Mistakes
-> We explain to Riley how a nested repository is redundant and may cause confusion
-> down the road. Riley would like to remove the nested repository. How can Riley undo
-> her last `git init` in the `countries` subdirectory?
->
-> > ## Solution -- USE WITH CAUTION!
-> >
-> > ### Background
-> > Removing files from a git repository needs to be done with caution. To remove files from the working tree and not from your working directory, use
-> > ```
-> > $ rm filename
-> > ```
-> > {: .language-bash}
-> >
-> > The file being removed has to be in sync with the branch head with no updates. If there are updates, the file can be removed by force by using the `-f` option. Similarly a directory can be removed from git using `rm -r dirname` or `rm -rf dirname`.
-> >
-> > ### Solution
-> > Git keeps all of its files in the `.git` directory.
-> > To recover from this little mistake, Riley can just remove the `.git`
-> > folder in the countries subdirectory by running the following command from inside the `un-report` directory:
-> >
-> > ```
-> > $ rm -rf countries/.git
-> > ```
-> > {: .language-bash}
-> >
-> > But be careful! Running this command in the wrong directory, will remove
-> > the entire Git history of a project you might want to keep. Therefore, always check your current directory using the
-> > command `pwd`.
-> {: .solution}
-{: .challenge}
-
-
-## Tracking Changes
-_[Back to top](#contents)_
-
-Let's make sure we're still in the right directory.
-You should be in the `un-report` directory.
+Note that Git lists our file `bash-cheatsheet.txt` in the `Untracked files`
+section. This is Git's way of saying that it sees a file in the directory that
+is not yet part of the repository. We use a separate command to tell git to add
+files to the repository.
 
 ```
-$ cd ~/Desktop/un-report
+$ git add bash-cheatsheet.txt
 ```
 {: .language-bash}
 
-Let's create a file called `notes.txt`. We'll write some notes about the plot we
-have made so far -- later we'll add more details about the project. We'll use
-`nano` to edit the file; you can use whatever text editor you like.
-
-```
-$ nano notes.txt
-```
-{: .language-bash}
-
-Type the text below into the `notes.txt` file:
-
-```
-We plotted life expectancy over time.
-```
-
-Let's first verify that the file was properly created by running the list command (`ls`):
-
-
-```
-$ ls
-```
-{: .language-bash}
-
-```
-notes.txt
-```
-{: .output}
-
-
-`notes.txt` contains a single line, which we can see by running:
-
-```
-$ cat notes.txt
-```
-{: .language-bash}
-
-```
-We plotted life expectancy over time.
-```
-{: .output}
-
-If we check the status of our project again,
-Git tells us that it's noticed the new file:
+Git does output any message, but you can check that the file has been added
+as a new file with the `git status` command.
 
 ```
 $ git status
 ```
 {: .language-bash}
-
 ```
-On branch master
-
-No commits yet
-
-Untracked files:
-   (use "git add <file>..." to include in what will be committed)
-
-	notes.txt
-
-nothing added to commit but untracked files present (use "git add" to track)
-```
-{: .output}
-
-The "untracked files" message means that there's a file in the directory
-that Git isn't keeping track of.
-We can tell Git to track a file using `git add`:
-
-```
-$ git add notes.txt
-```
-{: .language-bash}
-
-and then check that the right thing happened:
-
-```
-$ git status
-```
-{: .language-bash}
-
-```
-On branch master
-
-No commits yet
-
+On branch main
 Changes to be committed:
-  (use "git rm --cached <file>..." to unstage)
-
-	new file:   notes.txt
-
+  (use "git restore --staged <file>..." to unstage)
+	new file:   bash-cheatsheet.txt
 ```
 {: .output}
 
-Git now knows that it's supposed to keep track of `notes.txt`,
-but it hasn't recorded these changes as a commit yet.
-To get it to do that,
-we need to run one more command:
+The file is ready or _staged_, but to actually take the snapshot of this version,
+we have to execute one last command:
 
 ```
-$ git commit -m "Start notes on analysis"
+$ git commit -m'Added Bash cheatsheet'
 ```
 {: .language-bash}
-
 ```
-[master (root-commit) f22b25e] Start notes on analysis
- 1 file changed, 1 insertion(+)
- create mode 100644 notes.txt
+[main 7f8cd28] Added B ash cheatsheet
+ 1 file changed, 2 insertions(+)
 ```
 {: .output}
 
-When we run `git commit`,
-Git takes everything we have told it to save by using `git add`
-and stores a copy permanently inside the special `.git` directory.
-This permanent copy is called a [commit]({{ page.root }}{% link reference.md %}#commit)
-(or [revision]({{ page.root }}{% link reference.md %}#revision)) and its short identifier is `f22b25e`. Your commit may have another identifier.
-
-We use the `-m` flag (for "message")
-to record a short, descriptive, and specific comment that will help us remember later on what we did and why.
-If we just run `git commit` without the `-m` option,
-Git will launch `nano` (or whatever other editor we configured as `core.editor`)
-so that we can write a longer message.
-
-[Good commit messages][commit-messages] start with a brief (<50 characters) statement about the
-changes made in the commit. Generally, the message should complete the sentence "If applied, this commit will" <commit message here>.
-If you want to go into more detail, add a blank line between the summary line and your additional notes. Use this additional space to explain why you made changes and/or what their impact will be.
-
-If we run `git status` now:
+We can see that the repository matches the current contents of the directory like so:
 
 ```
 $ git status
 ```
 {: .language-bash}
-
 ```
-On branch master
-nothing to commit, working directory clean
+On branch main
+nothing to commit, working tree clean
 ```
 {: .output}
 
-it tells us everything is up to date.
-If we want to know what we've done recently,
-we can ask Git to show us the project's history using `git log`:
+
+The `add` `commit` and `status` commands are the most common and important commands in Git, so
+let's execute this sequence once more below.
+
 
 ```
-$ git log
+$ nano bash-cheatsheet.txt
 ```
 {: .language-bash}
 
-```
-commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
-Author: Riley Shor <Riley.Shor@fake.email.address>
-Date:   Thu Aug 22 09:51:46 2020 -0400
-
-    Start notes on analysis
-```
-{: .output}
-
-`git log` lists all commits  made to a repository in reverse chronological order.
-The listing for each commit includes
-the commit's full identifier
-(which starts with the same characters as
-the short identifier printed by the `git commit` command earlier),
-the commit's author,
-when it was created,
-and the log message Git was given when the commit was created.
-
-> ## Where Are My Changes?
->
-> If we run `ls` at this point, we will still see just one file called `notes.txt`.
-> That's because Git saves information about files' history
-> in the special `.git` directory mentioned earlier
-> so that our filesystem doesn't become cluttered
-> (and so that we can't accidentally edit or delete an old version).
-{: .callout}
-
-Now suppose Riley adds more information to the file.
-(Again, we'll edit with `nano` and then `cat` the file to show its contents;
-you may use a different editor, and don't need to `cat`.)
+Add the new lines below into the `bash-cheatsheet.txt` file:
 
 ```
-$ nano notes.txt
-$ cat notes.txt
-```
-{: .language-bash}
+Bash cheatsheet
+SWC-Workshop
+
+Commands
+pwd : path to working dir
+cd : change directory
+ls : list directory contents
 
 ```
-We plotted life expectancy over time.
-Each point represents a country.
-```
-{: .output}
-
-When we run `git status` now,
-it tells us that a file it already knows about has been modified:
 
 ```
 $ git status
 ```
 {: .language-bash}
-
 ```
-On branch master
+On branch main
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-	modified:   notes.txt
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   bash-cheatsheet.txt
 
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 {: .output}
 
-The last line is the key phrase:
-"no changes added to commit".
-We have changed this file,
-but we haven't told Git we will want to save those changes
-(which we do with `git add`)
-nor have we saved them (which we do with `git commit`).
-So let's do that now. It is good practice to always review
-our changes before saving them. We do this using `git diff`.
-This shows us the differences between the current state
-of the file and the most recently saved version:
+Note that Git recognizes the file was changed since the last commit.
+We will `add` and `commit` these new changes.
 
 ```
-$ git diff
+$ git add
+$ git commit -m'Added basic commands'
 ```
 {: .language-bash}
-
 ```
-diff --git a/notes.txt b/notes.txt
-index df0654a..315bf3a 100644
---- a/notes.txt
-+++ b/notes.txt
-@@ -1 +1,2 @@
- We plotted life expectancy over time.
-+Each point represents a country.
+[main 6441a95] Added email and date
+ 1 file changed, 3 insertions(+)
 ```
 {: .output}
 
-The output is cryptic because
-it is actually a series of commands for tools like editors and `patch`
-telling them how to reconstruct one file given the other.
-If we break it down into pieces:
-
-1.  The first line tells us that Git is producing output similar to the Unix `diff` command
-    comparing the old and new versions of the file.
-2.  The second line tells exactly which versions of the file
-    Git is comparing;
-    `df0654a` and `315bf3a` are unique computer-generated labels for those versions.
-3.  The third and fourth lines once again show the name of the file being changed.
-4.  The remaining lines are the most interesting, they show us the actual differences
-    and the lines on which they occur.
-    In particular,
-    the `+` marker in the first column shows where we added a line.
-
-After reviewing our change, it's time to commit it:
-
+And again checking `status`, Git shows that the repository's current version
+matches the directory contents.
 ```
-$ git commit -m "Add information on points"
 $ git status
 ```
 {: .language-bash}
-
 ```
-On branch master
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-	modified:   notes.txt
-
-no changes added to commit (use "git add" and/or "git commit -a")
+On branch main
+nothing to commit, working tree clean
 ```
 {: .output}
 
-Whoops:
-Git won't commit because we didn't use `git add` first.
-Let's fix that:
-
-```
-$ git add notes.txt
-$ git commit -m "Add information on points"
-```
-{: .language-bash}
-
-```
-[master 34961b1] Add information on points
- 1 file changed, 1 insertion(+)
-```
-{: .output}
-
-Git insists that we add files to the set we want to commit
-before actually committing anything. This allows us to commit our
-changes in stages and capture changes in logical portions rather than
+You can see from above that Git insists that we add files to the set we want
+to commit before actually committing anything. This allows us to commit our
+changes together and capture changes in logical portions rather than
 only large batches.
-For example,
-suppose we're adding a few citations to relevant research to our thesis.
+
+For example, suppose we're adding a few citations to relevant research to our thesis.
 We might want to commit those additions,
 and the corresponding bibliography entries,
-but *not* commit some of our work drafting the conclusion
+but -not- commit some of our work drafting the conclusion
 (which we haven't finished yet).
 
 To allow for this,
-Git has a special *staging area*
+Git has a special -staging area-
 where it keeps track of things that have been added to
-the current [changeset]({{ page.root }}{% link reference.md %}#changeset)
-but not yet committed.
+the current changeset but not yet committed.
 
 > ## Staging Area
 >
 > If you think of Git as taking snapshots of changes over the life of a project,
-> `git add` specifies *what* will go in a snapshot
+> `git add` specifies -what- will go in a snapshot
 > (putting things in the staging area),
-> and `git commit` then *actually takes* the snapshot, and
+> and `git commit` then -actually takes- the snapshot, and
 > makes a permanent record of it (as a commit).
 > If you don't have anything staged when you type `git commit`,
 > Git will prompt you to use `git commit -a` or `git commit --all`,
-> which is kind of like gathering *everyone* to take a group photo!
+> which is kind of like gathering -everyone- to take a group photo!
 > However, it's almost always better to
 > explicitly add things to the staging area, because you might
 > commit changes you forgot you made. (Going back to the group photo simile,
@@ -813,95 +556,132 @@ but not yet committed.
 
 ![The Git Staging Area]({{ page.root }}/fig/git/git-staging-area.svg)
 
-Let's watch as our changes to a file move from our editor
-to the staging area
-and into long-term storage.
-First,
-we'll add another line to the file:
+## Managing Versions and Tracking Changes
+
+_[Back to top](#contents)_
+
+So far, we focused on adding files and changes to a repository. We will
+reinforce those commands in a similar exercise, but also introduce new git
+commands to view and manage version history of the repository.
+
+We'll start by creating a new project related to the plots you created earlier.
 
 ```
-$ nano notes.txt
-$ cat notes.txt
+$ cd # cd by itself changes to the home directory
+$ mkdir un-report-readme
+$ cd un-report-readme
+$ pwd
 ```
 {: .language-bash}
 
 ```
-We plotted life expectancy over time.
-Each point represents a country.
-Continents are grouped by color.
+$ /home/USERNAME/Desktop/un-report-readme
 ```
 {: .output}
 
-```
-$ git diff
-```
-{: .language-bash}
+What should `git status` return on a brand new directory?
 
 ```
-diff --git a/notes.txt b/notes.txt
-index 315bf3a..b36abfd 100644
---- a/notes.txt
-+++ b/notes.txt
-@@ -1,2 +1,3 @@
- We plotted life expectancy over time.
- Each point represents a country.
-+Continents are grouped by color.
+$ git status
+```
+{: .language-bash}
+```
+fatal: not a git repository (or any of the parent directories): .git
 ```
 {: .output}
 
-So far, so good:
-we've added one line to the end of the file
-(shown with a `+` in the first column).
-Now let's put that change in the staging area
-and see what `git diff` reports:
+So we initialize the repository:
 
 ```
-$ git add notes.txt
-$ git diff
-```
-{: .language-bash}
-
-There is no output:
-as far as Git can tell,
-there's no difference between what it's been asked to save permanently
-and what's currently in the directory.
-However,
-if we do this:
-
-```
-$ git diff --staged
+$ git init
 ```
 {: .language-bash}
 
 ```
-diff --git a/notes.txt b/notes.txt
-index 315bf3a..b36abfd 100644
---- a/notes.txt
-+++ b/notes.txt
-@@ -1,2 +1,3 @@
- We plotted life expectancy over time.
- Each point represents a country.
-+Continents are grouped by color.
+Initialized empty Git repository in /Users/USERNAME/Desktop/un-report-readme/.git/
 ```
 {: .output}
 
-it shows us the difference between
-the last committed change
-and what's in the staging area.
-Let's save our changes:
+Let's create a file called `README.md`. We'll write some notes about
+some of the plots we created earlier. We'll use
+`nano` to edit the file (but you can use whatever text editor you like).
 
 ```
-$ git commit -m "Add note about point color"
+$ nano README.md
+```
+{: .language-bash}
+
+Type the text below into the `README.md` file:
+
+```
+# UN Report
+10/18/2021
+Riley.Shor@fake.email.address
+```
+
+And `add` and `commit` that new file:
+
+```
+$ git add
+$ git commit -m'Added README'
+$ git status
 ```
 {: .language-bash}
 
 ```
-[master 005937f] Add note about point color
- 1 file changed, 1 insertion(+)
+[main (root-commit) ac0b28a] Added README
+ 1 file changed, 4 insertions(+)
+ create mode 100644 README.md
+
+On branch main
+nothing to commit, working tree clean
 ```
 {: .output}
 
-check our status:
+For practice, we'll make a series of changes, adding and committing after
+each change. For the first change, in your editor, add the summary line
+shown below.
+```
+# UN Report
+10/18/2021
+Riley.Shor@fake.email.address
+
+Scripts to read and interpret gapminder data.
+```
+
+```
+$ git add
+$ git commit -m'Added a summary of the project'
+```
+{: .language-bash}
+
+```
+[main 4fec7ab] Added a summary of the project
+ 1 file changed, 1 insertions(+)
+```
+{: .output}
+
+One more change: revise the summary line as shown below.
+```
+# UN Report
+10/18/2021
+Riley.Shor@fake.email.address
+
+Scripts to read and interpret gapminder data producing figures that emphasize
+the relationship of GDP and life expectancy across countries.
+```
+
+```
+$ git add
+$ git commit -m'Updated summary with details on figures'
+```
+{: .language-bash}
+
+```
+[main a6669c4] Added a summary of the project
+ 1 file changed, 1 insertions(+), 1 deletions(-)
+```
+{: .output}
 
 ```
 $ git status
@@ -909,126 +689,750 @@ $ git status
 {: .language-bash}
 
 ```
-On branch master
-nothing to commit, working directory clean
+On branch main
+nothing to commit, working tree clean
 ```
 {: .output}
 
-and look at the history of what we've done so far:
 
+Every time you commit a change, Git takes a snapshot of the file. You can see
+the full list of snapshots with `git log`.
 ```
 $ git log
 ```
 {: .language-bash}
 
 ```
-commit 005937fbe2a98fb83f0ade869025dc2636b4dad5
+commit a6669c4fc2a598677a660ce5b831b1e2c9445a96 (HEAD -> main)
 Author: Riley Shor <Riley.Shor@fake.email.address>
-Date:   Thu Aug 22 10:14:07 2020 -0400
+Date:   Sun Oct 17 10:00:06 2021 -0400
 
-    Add note about point color
+    Updated summary with details on figures
 
-commit 34961b159c27df3b475cfe4415d94a6d1fcd064d
+commit 4fec7ab0937addcdebf41962f797bcd92fd1295b
 Author: Riley Shor <Riley.Shor@fake.email.address>
-Date:   Thu Aug 22 10:07:21 2020 -0400
+Date:   Sun Oct 17 09:59:16 2021 -0400
 
-    Add information on points
+    Added a summary of the project
 
-commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
+commit ac0b28aa38d617eada4a87f383cb7abc51a5faaa
 Author: Riley Shor <Riley.Shor@fake.email.address>
-Date:   Thu Aug 22 09:51:46 2020 -0400
+Date:   Sun Oct 17 09:58:38 2021 -0400
 
-    Start notes on analysis
+    Added README
 ```
 {: .output}
 
-> ## Word-based diffing
+`git log` lists all commits  made to a repository in reverse chronological order.
+The listing for each commit includes:
+
+- the commit's full identifier (which starts with the same characters as
+the short identifier printed by the `git commit` command earlier),
+- the commit's author,
+- when it was created,
+- and the commit message
+
+Often times, a shorter log format is just as useful and easier to read. The
+`--oneline` flag simply shows an abbreviated identifier and the commit comment.
+
+```
+$ git log --oneline
+```
+{: .language-bash}
+
+```
+a6669c4 (HEAD -> main) Updated summary with details on figures
+4fec7ab Added a summary of the project
+ac0b28a Added README
+```
+{: .output}
+
+
+Each Git commit tracks the content and circumstances of all the changes. You
+can see more info on a specific commit with `git show`  followed by one of the
+commit identifiers from `log` command above:
+
+```
+$ git show 4fec7ab0937addcdebf41962f797bcd92fd1295b
+```
+{: .language-bash}
+
+```
+commit 4fec7ab0937addcdebf41962f797bcd92fd1295b
+Author: Riley Shor <Riley.Shor@fake.email.address>
+Date:   Sun Oct 17 09:59:16 2021 -0400
+
+    Added a summary of the project
+
+diff --git a/README.md b/README.md
+index 5a6bf77..03d7655 100644
+--- a/README.md
++++ b/README.md
+@@ -2,3 +2,4 @@
+ 10/18/2021
+ Riley.Shor@fake.email.address
+
++Scripts to read and interpret gapminder data.
+```
+{: .output}
+
+`git show` outputs the info from `log` followed by the differences between the
+specified commit and the preceding version. It's a lot of information, so
+we'll break it down into pieces:
+
+1.  The first line tells us that Git is producing output similar to the Unix `diff` command
+    comparing the old and new versions of the file.
+2.  The second line tells exactly which versions of the file
+    Git is comparing; `5a6bf77` and `03d7655` are unique computer-generated
+    labels for those versions.
+3.  The third and fourth lines once again show the name of the file being changed.
+4.  The remaining lines are the most interesting, they show us the actual differences
+    and the lines on which they occur. In particular, it starts with a few
+    lines in common to give you some context ("10/18/2021" and
+    "Riley.Shor@fake.email.address"); the final lines show a line was added
+    to the new version (`+`).
+
+
+
+> ## Git commit identifiers
 >
-> Sometimes, e.g. in the case of the text documents a line-wise
-> diff is too coarse. That is where the `--color-words` option of
-> `git diff` comes in very useful as it highlights the changed
-> words using colors.
+> Git needs a long commit identifier to ensure all identifiers are unique.
+> That said, most git operations that use a commit identifier can use a shorter
+> identifier provided it's unambiguous for that repository's
+> list of existing commits. It is common to use only the first few
+> characters (~7 characters) when specifying a identifier.
+>
+> Also, we will continue to use the term "commit identifier", but identifiers are
+> sometimes referred to as "commit index", "commit hash", or "commit SHA"
+> (sounds like "shah").
 {: .callout}
 
-> ## Paging the Log
->
-> When the output of `git log` is too long to fit in your screen,
-> `git` uses a program to split it into pages of the size of your screen.
-> When this "pager" is called, you will notice that the last line in your
-> screen is a `:`, instead of your usual prompt.
->
-> *   To get out of the pager, press <kbd>Q</kbd>.
-> *   To move to the next page, press <kbd>Spacebar</kbd>.
-> *   To search for `some_word` in all pages,
->     press <kbd>/</kbd>
->     and type `some_word`.
->     Navigate through matches pressing <kbd>N</kbd>.
+
+This command shows the latest commit using an abbreviated commit identifier:
+```
+$ git show a6669c4
+```
+{: .language-bash}
+```
+commit a6669c4fc2a598677a660ce5b831b1e2c9445a96 (HEAD -> main)
+Author: Riley Shor <Riley.Shor@fake.email.address>
+Date:   Sun Oct 17 10:00:06 2021 -0400
+
+    Updated summary with details on figures
+
+diff --git a/README.md b/README.md
+index 03d7655..71663b6 100644
+--- a/README.md
++++ b/README.md
+@@ -2,4 +2,5 @@
+ 10/18/2021
+ Riley.Shor@fake.email.address
+
+-Scripts to read and interpret gapminder data.
++Scripts to read and interpret gapminder data producing figures that emphasize
++the relationship of GDP and life expectancy across countries.
+```
+{: .output}
+
+As detailed in the comment above, the trailing output shows the actual change
+from the previous version of README.md.
+
+```
+10/18/2021
+Riley.Shor@fake.email.address
+```
+Then it shows that one line was deleted from the previous version and two lines
+were added to new version.
+```
+-Scripts to read and interpret gapminder data.
++Scripts to read and interpret gapminder data producing figures that emphasize
++the relationship of GDP and life expectancy across countries.
+```
+
+
+In addition to comparing versions already committed, you can also compare
+in-progress changes to previous commits using `git diff`. To see this in action,
+add the following 4 trailing lines to README.md (starting with "Files/dirs:").
+
+```
+# UN Report
+10/18/2021
+Riley.Shor@fake.email.address
+
+Scripts to read and interpret gapminder data producing figures that emphasize
+the relationship of GDP and life expectancy across countries.
+
+Files/dirs:
+code : R scripts
+data : gapminder text data
+figures : plots
+```
+
+Check that there is a difference between the working copy and the last repo:
+
+```
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+{: .output}
+
+See the actual differences between the working copy of the file and the last
+commit with  `git diff`:
+
+```
+$ git diff README.md
+```
+{: .language-bash}
+
+```
+diff --git a/README.md b/README.md
+index 71663b6..a5a8954 100644
+--- a/README.md
++++ b/README.md
+@@ -4,3 +4,8 @@ Riley.Shor@fake.email.address
+
+ Scripts to read and interpret gapminder data producing figures that emphasize
+ the relationship of GDP and life expectancy across countries.
++
++Files/dirs:
++code : R scripts
++data : gapminder text data
++figures : plots
+```
+{: .output}
+
+Sometimes you realize you want to undo a change after you have added the file.
+`git restore` accomplishes this. To illustrate this pattern, we'll add this
+change to the staging area:
+
+```
+$ git add README.md
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   README.md
+```
+{: .output}
+
+The `git restore --staged` command "unstages" the change, keeping the changes in
+the working file.
+
+```
+$ git restore --staged README.md
+$ cat README.md
+```
+{: .language-bash}
+
+```
+# UN Report
+10/18/2021
+Riley.Shor@fake.email.address
+
+Scripts to read and interpret gapminder data producing figures that emphasize
+the relationship of GDP and life expectancy across countries.
+
+Files/dirs:
+code : R scripts
+data : gapminder text data
+figures : plots
+```
+{: .output}
+
+
+```
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+{: .output}
+
+You can use `git restore --staged` to abandon the working changes and replace with the
+version from the last commit:
+
+```
+$ git restore --staged README.md
+$ git status
+```
+{: .language-bash}
+
+At times, it might make sense to abandon the changes in the working copy and
+replace with the last commit.
+
+```
+$ git restore README.md
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+nothing to commit, working tree clean
+```
+{: .output}
+
+
+Consider the `git restore` command in the context of the earlier diagram:
+
+![The Git Staging Area]({{ page.root }}/fig/git/git-staging-area.svg)
+
+
+`git checkout`  allows you to peek at an earlier version of the project without
+making any changes. Before you do this, verify you have no outstanding
+modifications. Use some combination of `restore` or `add` and `commit` so that
+you have a clean working tree.
+
+```
+$ git status
+$ git log --oneline
+```
+{: .language-bash}
+
+```
+On branch main
+nothing to commit, working tree clean
+a6669c4 (HEAD -> main) Updated summary with details on figures
+4fec7ab Added a summary of the project
+ac0b28a Added README
+```
+{: .output}
+
+
+Checkout the initial commit (will be the last in your list).
+
+```
+$ git checkout ac0b28a
+```
+{: .language-bash}
+
+```
+Note: switching to 'ac0b28a'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at ac0b28a Added README
+```
+{: .error}
+
+> The "detached HEAD" is like "look, but don't touch" here,
+> so you shouldn't make any changes in this state.
 {: .callout}
 
-> ## Limit Log Size
->
-> To avoid having `git log` cover your entire terminal screen, you can limit the
-> number of commits that Git lists by using `-N`, where `N` is the number of
-> commits that you want to view. For example, if you only want information from
-> the last commit you can use:
->
-> ```
-> $ git log -1
-> ```
-> {: .language-bash}
->
-> ```
-> commit 005937fbe2a98fb83f0ade869025dc2636b4dad5
-> Author: Riley Shor <Riley.Shor@fake.email.address>
-> Date:   Thu Aug 22 10:14:07 2020 -0400
->
->    Add note about point color
-> ```
-> {: .output}
->
-> You can also reduce the quantity of information using the
-> `--oneline` option:
->
-> ```
-> $ git log --oneline
-> ```
-> {: .language-bash}
-> ```
-> 005937f Add note about point color
-> 34961b1 Add information on points
-> f22b25e Start notes on analysis
-> ```
-> {: .output}
->
-> You can also combine the `--oneline` option with others. One useful
-> combination adds `--graph` to display the commit history as a text-based
-> graph and to indicate which commits are associated with the
-> current `HEAD`, the current branch `master`, or
-> [other Git references][git-references]:
->
-> ```
-> $ git log --oneline --graph
-> ```
-> {: .language-bash}
-> ```
-> * 005937f (HEAD -> master) Add note about point color
-> * 34961b1 Add information on points
-> * f22b25e Start notes on analysis
-> ```
-> {: .output}
-{: .callout}
 
-> ## Directories
+Git has rewound the clock and dropped you into an earlier version. Note the log
+shows only the one change and git has replaced your working copy with the
+earliest version of this file.
+
+```
+$ git log --oneline
+$ cat README
+```
+{: .language-bash}
+
+```
+ac0b28a (HEAD) Added README
+# UN Report
+10/18/2021
+Riley.Shor@fake.email.address
+```
+{: .output}
+
+When you are done looking, use `git checkout main` to return to the latest
+version.
+
+```
+$ git checkout main
+$ git log --oneline
+```
+{: .language-bash}
+
+```
+Previous HEAD position was ac0b28a Added README
+Switched to branch 'main'
+a6669c4 (HEAD -> main) Updated summary with details on figures
+4fec7ab Added a summary of the project
+ac0b28a Added README
+```
+{: .output}
+
+Finally, if you are having second thoughts about a change you have already
+commited, you can `revert` the change. To illustrate this, we will delete
+our README.md file, commit the change, and then revert the change.
+
+```
+$ rm README.md
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	deleted:    README.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+{: .output}
+
+> Note that Git recognizes the file was deleted. We still use `git add` to
+> add the change to the staging area.
+
+```
+$ git add README.md
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	deleted:    README.md
+```
+{: .output}
+
+```
+$ git commit -m'Deleted README'
+```
+{: .language-bash}
+
+```
+[main 24c3a76] Deleted README
+ 1 file changed, 6 deletions(-)
+ delete mode 100644 README.md
+(base)
+```
+{: .output}
+
+> The file is not in the working directory and the Git log shows the commit that deleted it.
+
+```
+$ ls
+$ git log --oneline
+```
+{: .language-bash}
+
+```
+24c3a76 (HEAD -> main) Deleted README
+a6669c4 Updated summary with details on figures
+4fec7ab Added a summary of the project
+ac0b28a Added README
+```
+{: .output}
+
+> So now we revert the last commit to rescue that file. This command will launch
+> an editor to allow you to edit a new commit message. You can accept the default
+> message and save/exit the editor.
+
+```
+$ git revert 24c3a76
+```
+{: .language-bash}
+
+```
+[main 4a82b63] Revert "Deleted README"
+ 1 file changed, 6 insertions(+)
+ create mode 100644 README.md
+```
+{: .output}
+
+> Note that the file was restored to its previous state and Git has added a new
+> commit. This shows that when Git reverts a change, it does not "go back in time"
+> to before the problem commit. Instead it creates a new change that inverts the
+> effect of the problem commit; in our case recreating the file.
+```
+$ git log --oneline
+$ cat README.md
+```
+{: .language-bash}
+
+```
+4a82b63 (HEAD -> main) Revert "Deleted README"
+24c3a76 Deleted README
+a6669c4 Updated summary with details on figures
+4fec7ab Added a summary of the project
+ac0b28a Added README
+
+# UN Report
+10/18/2021
+Riley.Shor@fake.email.address
+
+Scripts to read and interpret gapminder data producing figures that emphasize
+the relationship of GDP and life expectancy across countries.
+```
+
+{: .output}
+
+
+## Versioning multiple files
+
+Up until now, we have used git with a single file. Git's real power is that you
+can use these same commands to version a set of files all at once, enabling
+coordinated changes that keep all the files in a consistent state. We will
+explore this by versioning un-report dir we were working in earlier.
+
+
+```
+$ cd
+$ cd un-report
+$ pwd
+```
+{: .language-bash}
+
+```
+/home/USERNAME/Desktop/cheatsheets
+```
+{: .output}
+
+> Initialize a new Git repository.
+
+```
+$ git init
+$ git status
+```
+{: .language-bash}
+
+```
+Initialized empty Git repository in /Users/USERNAME/Desktop/un-report/.git/
+
+On branch main
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.Rproj.user/
+	code/
+	data/
+	figures/
+	un-report.Rproj
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+{: .output}
+
+We can add directories in the same we added a single file.
+```
+$ git add code
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   code/gdp_population.R
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.Rproj.user/
+	data/
+	figures/
+	un-report.Rproj
+```
+{: .output}
+
+> Note that when adding the directory, Git assumes you want to add everything
+> inside that directory. For our purposes that's correct. Let's continue by
+> adding the `data` and `figures` directories. We can do this in one command:
+
+```
+$ git add data figures
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   code/gdp_population.R
+	new file:   data/co2-un-data.csv
+	new file:   data/gapminder_1997.csv
+	new file:   data/gapminder_data.csv
+	new file:   data/rnd-un-data.csv
+	new file:   figures/awesome_plot.jpg
+	new file:   figures/awesome_violin_plot.jpg
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.Rproj.user/
+	un-report.Rproj
+```
+{: .output}
+
+> We could keep adding files, but let's commit what we have now.
+
+```
+$ git commit -m'Added code, data, figures dirs'
+$ git status
+```
+{: .language-bash}
+
+```
+[main (root-commit) 42e0844] Added code, data, figures dirs
+ 7 files changed, 6404 insertions(+)
+ create mode 100644 code/gdp_population.R
+ create mode 100644 data/co2-un-data.csv
+ create mode 100644 data/gapminder_1997.csv
+ create mode 100644 data/gapminder_data.csv
+ create mode 100644 data/rnd-un-data.csv
+ create mode 100644 figures/awesome_plot.jpg
+ create mode 100644 figures/awesome_violin_plot.jpg
+
+ On branch main
+ Untracked files:
+   (use "git add <file>..." to include in what will be committed)
+ 	.Rproj.user/
+ 	un-report.Rproj
+
+ nothing added to commit but untracked files present (use "git add" to track)
+```
+{: .output}
+
+
+One of the reasons Git separates the action of adding files to the staging area
+and committing the changes to the repository is that it gives allows you to group
+commit into a meaningful, logical, consistent set of changes. It also gives you
+the freedom to decide that some files should not be committed to the repository.
+Moreover, Git can use a `.gitignore` file to emphasize to Git that it should
+leave certain files in the working directory and never try to add them to the
+repository.
+
+> ## Choosing what include in a repository and what to leave out
 >
-> Two important facts you should know about directories in Git.
+> Some kinds of files belong in a Git repository. Some kinds should never be
+> added to Git. And sometimes it depends on the context and the file.
+> In the UN Report example above, there are files for data, code, figures, and
+> also R-Studio configuration. Which of these do you think would be most
+> appropriate to use for version control? Can you think of examples of files
+> that you might _not_ want to add to Git?
 >
-> 1. Git does not track directories on their own, only files within them.
->    Try it for yourself:
+> > ## Solution
+> > We will discuss this together in the workshop session.
+> {: .solution}
+{: .challenge}
+
+For now, we will choose to add `un-report.Rproj` to the repository and ignore
+the `.Rproj.user/` directory. In your text editor, create a new file named
+`.gitignore` and add the following line:
+
+```
+.Rproj.user/
+```
+
+`git status` now considers the `.gitignore` file and correctly ignores that dir
+(suppressing it in the output).
+
+```
+$ git status
+```
+{: .language-bash}
+
+
+```
+On branch main
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.gitignore
+	un-report.Rproj
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+{: .output}
+
+Finally, we'll commit those last changes.
+
+```
+$ git add un-report.Rproj .gitignore
+$ git commit -m'Added .gitignore and R-Studio project info'
+```
+{: .language-bash}
+
+
+```
+[main 25147ba] Added .gitignore and R-Studio project info
+ 2 files changed, 15 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 un-report.Rproj
+```
+{: .output}
+
+```
+$ git status
+```
+{: .language-bash}
+
+```
+On branch main
+nothing to commit, working tree clean
+```
+
+> ## Consider your commit message
 >
+> Not all commit messages are created equal. Messages can be too short, too long,
+> redundant, or vague. Indeed some of the commit messages i the examples above
+> may be suboptimal. Consider where the commit messages are used and by whom;
+> discuss some characteristics of an ideal commit message.
+>
+> > ## Solution
+> > We will discuss this together in the workshop session.
+> {: .solution}
+{: .challenge}
+
+
+
+A last thought about directories: Git does not track directories on their own,
+only the files within them.
 >    ```
->    $ mkdir analysis
+>    $ mkdir project_background
 >    $ git status
->    $ git add analysis
+>    $ git add project_background
 >    $ git status
 >    ```
 >    {: .language-bash}
@@ -1040,373 +1444,32 @@ Date:   Thu Aug 22 09:51:46 2020 -0400
 >    and their sole purpose is to populate a directory so that Git adds it to
 >    the repository. In fact, you can name such files anything you like.
 >
-> 2. If you create a directory in your Git repository and populate it with files,
->    you can add all files in the directory at once by:
->
 >    ```
->    git add <directory-with-files>
->    ```
->    {: .language-bash}
->
->    Try it for yourself:
->
->    ```
->    $ touch analysis/file-1.txt analysis/file-2.txt
+>    $ touch project_background/.gitkeep
 >    $ git status
->    $ git add analysis
+>    $ git add project_background
 >    $ git status
 >    ```
 >    {: .language-bash}
->
->    Note: the `touch` command creates blank text files that you can later edit
->    with your preferred text editor.
->
->    Before moving on, we will commit these changes.
->
->    ```
->    $ git commit -m "Create blank text files"
->    ```
->    {: .language-bash}
->
-{: .callout}
 
-To recap, when we want to add changes to our repository,
-we first need to add the changed files to the staging area
-(`git add`) and then commit the staged changes to the
-repository (`git commit`):
 
+Git concepts and commands (so far)
 ![The Git Commit Workflow]({{ page.root }}/fig/git/git-committing.svg)
+- config
+- init
+- status
+- add
+- commit
+- restore
+- log
+- diff
+- show
+- checkout
+- revert
+- .gitignore
 
-> ## Choosing a Commit Message
->
-> Which of the following commit messages would be most appropriate for the
-> last commit made to `notes.txt`?
->
-> 1. "Changes"
-> 2. "Added line 'Continents are grouped by color.' to notes.txt"
-> 3. "Describe grouping"
->
-> > ## Solution
-> > Answer 1 is not descriptive enough, and the purpose of the commit is unclear;
-> > and answer 2 is redundant to using "git diff" to see what changed in this commit;
-> > but answer 3 is good: short, descriptive, and imperative.
-> {: .solution}
-{: .challenge}
 
-> ## Committing Changes to Git
->
-> Which command(s) below would save the changes of `myfile.txt`
-> to my local Git repository?
->
-> 1. ```
->    $ git commit -m "my recent changes"
->    ```
->    {: .language-bash}
-> 2. ```
->    $ git init myfile.txt
->    $ git commit -m "my recent changes"
->    ```
->    {: .language-bash}
-> 3. ```
->    $ git add myfile.txt
->    $ git commit -m "my recent changes"
->    ```
->    {: .language-bash}
-> 4. ```
->    $ git commit -m myfile.txt "my recent changes"
->    ```
->    {: .language-bash}
->
-> > ## Solution
-> >
-> > 1. Would only create a commit if files have already been staged.
-> > 2. Would try to create a new repository.
-> > 3. Is correct: first add the file to the staging area, then commit.
-> > 4. Would try to commit a file "my recent changes" with the message myfile.txt.
-> {: .solution}
-{: .challenge}
 
-> ## Committing Multiple Files
->
-> The staging area can hold changes from any number of files
-> that you want to commit as a single snapshot.
->
-> 1. Add some text to `notes.txt` noting your decision
-> to consider writing a manuscript.
-> 2. Create a new file `manuscript.txt` with your initial thoughts.
-> 3. Add changes from both files to the staging area,
-> and commit those changes.
->
-> > ## Solution
-> >
-> > First we make our changes to the `notes.txt` and `manuscript.txt` files:
-> > ```
-> > $ nano notes.txt
-> > $ cat notes.txt
-> > ```
-> > {: .language-bash}
-> > ```
-> > Maybe I should start with a draft manuscript.
-> > ```
-> > {: .output}
-> > ```
-> > $ nano manuscript.txt
-> > $ cat manuscript.txt
-> > ```
-> > {: .language-bash}
-> > ```
-> > This is where I will write an awesome manuscript.
-> > ```
-> > {: .output}
-> > Now you can add both files to the staging area. We can do that in one line:
-> >
-> > ```
-> > $ git add notes.txt manuscript.txt
-> > ```
-> > {: .language-bash}
-> > Or with multiple commands:
-> > ```
-> > $ git add notes.txt
-> > $ git add manuscript.txt
-> > ```
-> > {: .language-bash}
-> > Now the files are ready to commit. You can check that using `git status`. If you are ready to commit use:
-> > ```
-> > $ git commit -m "Note plans to start a draft manuscript"
-> > ```
-> > {: .language-bash}
-> > ```
-> > [master cc127c2]
-> >  Note plans to start a draft manuscript
-> >  2 files changed, 2 insertions(+)
-> >  create mode 100644 manuscript.txt
-> > ```
-> > {: .output}
-> {: .solution}
-{: .challenge}
-
-> ## `workshop` Repository
->
-> * Create a new Git repository on your computer called `workshop`.
-> * Write a three lines about what you have learned about R and bash a file called `notes.txt`,
-> commit your changes
-> * Modify one line, add a fourth line
-> * Display the differences
-> between its updated state and its original state.
->
-> > ## Solution
-> >
-> > If needed, move out of the `un-report` folder:
-> >
-> > ```
-> > $ cd ..
-> > ```
-> > {: .language-bash}
-> >
-> > Create a new folder called `workshop` and 'move' into it:
-> >
-> > ```
-> > $ mkdir workshop
-> > $ cd workshop
-> > ```
-> > {: .language-bash}
-> >
-> > Initialise git:
-> >
-> > ```
-> > $ git init
-> > ```
-> > {: .language-bash}
-> >
-> > Create your file `notes.txt` using `nano` or another text editor.
-> > Once in place, add and commit it to the repository:
-> >
-> > ```
-> > $ git add notes.txt
-> > $ git commit -m "Add notes file"
-> > ```
-> > {: .language-bash}
-> >
-> > Modify the file as described (modify one line, add a fourth line).
-> > To display the differences
-> > between its updated state and its original state, use `git diff`:
-> >
-> > ```
-> > $ git diff notes.txt
-> > ```
-> > {: .language-bash}
-> >
-> {: .solution}
-{: .challenge}
-
-[commit-messages]: https://chris.beams.io/posts/git-commit/
-[git-references]: https://git-scm.com/book/en/v2/Git-Internals-Git-References
-
-{% include links.md %}
-
-## Undoing changes
-_[Back to top](#contents)_
-
-> ## Reverting a Commit
->
-> Jennifer is collaborating on her Python script with her colleagues and
-> realizes her last commit to the project's repository contained an error and
-> she wants to undo it.  `git revert [erroneous commit ID]` will create a new
-> commit that reverses Jennifer's erroneous commit. Therefore `git revert` is
-> different to `git checkout [commit ID]` because `git checkout` returns the
-> files within the local repository to a previous state, whereas `git revert`
-> reverses changes committed to the local and project repositories.  
-> Below are the right steps and explanations for Jennifer to use `git revert`,
-> what is the missing command in step 1 below?
->
-> 1. `________ # Look at the git history of the project to find the commit ID`
->
-> 2. Copy the ID (the first few characters of the ID, e.g. 0b1d055).
->
-> 3. `git revert [commit ID]`
->
-> 4. Type in the new commit message.
->
-> 5. Save and close
->
-> > ## Solution
-> >
-> > Use `git log` to look at the git history to find the commit ID.
-> {: .solution}
-{: .challenge}
-
-> ## Understanding Workflow and History
->
-> What is the output of the last command in
->
-> ```
-> $ echo "Here are my notes from the workshop." > notes.txt
-> $ git add notes.txt
-> $ echo "I learned the unix shell, git & github, and the R programming language." >> notes.txt
-> $ git commit -m "Create workshop notes"
-> $ git checkout HEAD notes.txt
-> $ cat notes.txt #this will print the contents of notes.txt to the screen
-> ```
-> {: .language-bash}
->
-> 1. ```
->    I learned the unix shell, git & github, and the R programming language.
->    ```
->    {: .output}
-> 2. ```
->    Here are my notes from the workshop.
->    ```
->    {: .output}
-> 3. ```
->    Here are my notes from the workshop.
->    I learned the unix shell, git & github, and the R programming language.
->    ```
->    {: .output}
-> 4. ```
->    Error because you have changed notes.txt without committing the changes
->    ```
->    {: .output}
->
-> > ## Solution
-> >
-> > The answer is 2.
-> >
-> > The command `git add notes.txt` places the current version of `notes.txt` into the staging area.
-> > The changes to the file from the second `echo` command are only applied to the working copy,
-> > not the version in the staging area.
-> >
-> > So, when `git commit -m "Create workshop notes"` is executed,
-> > the version of `notes.txt` committed to the repository is the one from the staging area and
-> > has only one line.
-> >  
-> >  At this time, the working copy still has the second line (and
-> >  `git status` will show that the file is modified). However, `git checkout HEAD notes.txt`
-> >  replaces the working copy with the most recently committed version of `notes.txt`.
-> >  
-> >  So, `cat notes.txt` will output
-> >  ```
-> >  Here are my notes from the workshop..
-> >  ```
-> > {: .output}
-> {: .solution}
-{: .challenge}
-
-> ## Checking Understanding of `git diff`
->
-> Consider this command: `git diff HEAD~3 notes.txt`. What do you predict this command
-> will do if you execute it? What happens when you do execute it? Why?
->
-> > ## Solution
-> > The diff will show the difference between the current version of notes.txt
-> > and the version that existed 3 commits ago.
-> {: .solution}
->
-> Try another command, `git diff [ID] notes.txt`, where [ID] is replaced with
-> the unique identifier for your most recent commit. What do you think will happen,
-> and what does happen?
->
-> > ## Solution
-> >
-> > The diff will show the difference between the current version of notes.txt
-> > and the version that exited in the commit from [ID].
-> {: .solution}
-{: .challenge}
-
-> ## Getting Rid of Staged Changes
->
-> `git checkout` can be used to restore a previous commit when unstaged changes have
-> been made, but will it also work for changes that have been staged but not committed?
-> Make a change to `notes.txt`, add that change, and use `git checkout` to see if
-> you can remove your change.
->
-> > ## Solution
-> >
-> > `git checkout notes.txt` does not work for this purpose.
-> > Instead, use the restore command with the staged flag:
-> > `git restore --staged notes.txt`
-> {: .solution}
-{: .challenge}
-
-> ## Explore and Summarize Histories
->
-> Exploring history is an important part of Git, and often it is a challenge to find
-> the right commit ID, especially if the commit is from several months ago.
->
-> Imagine the `analysis` project has more than 50 files.
-> You would like to find a commit that modifies some specific text in `notes.txt`.
-> When you type `git log`, a very long list appeared.
-> How can you narrow down the search?
->
-> Recall that the `git diff` command allows us to explore one specific file,
-> e.g., `git diff notes.txt`. We can apply a similar idea here.
->
-> ```
-> $ git log notes.txt
-> ```
-> {: .language-bash}
->
-> Unfortunately some of these commit messages are very ambiguous, e.g., `update files`.
-> How can you search through these files?
->
-> Both `git diff` and `git log` are very useful and they summarize a different part of the history
-> for you.
-> Is it possible to combine both? Let's try the following:
->
-> ```
-> $ git log --patch notes.txt
-> ```
-> {: .language-bash}
->
-> You should get a long list of output, and you should be able to see both commit messages and
-> the difference between each commit.
->
-> Question: What does the following command do?
->
-> ```
-> $ git log --patch HEAD~9 *.txt
-> ```
-> {: .language-bash}
-{: .challenge}
 
 ## Intro to GitHub
 _[Back to top](#contents)_
@@ -1542,7 +1605,7 @@ SHA256:SMSPIStNyA00KPxuYu94KpZgRAYjgt9g4BA4kFy3g1o Riley.Shor@fake.email.address
 The key's randomart image is:
 +--[ED25519 256]--+
 |^B== o.          |
-|%*=.*.+          |
+|%-=.-.+          |
 |+=.E =.+         |
 | .=.+.o..        |
 |....  . S        |
@@ -1601,6 +1664,8 @@ Hi Riley! You've successfully authenticated, but GitHub does not provide shell a
 ~~~
 {: .output}
 
+> Congratulations: your SSH key is configured correctly. You are ready to begin
+> using GitHub.
 
 ### Making a repository on GitHub and linking it to a local repository
 Log in to GitHub, then click on the icon in the top right corner to
@@ -1625,7 +1690,8 @@ repository `un-report`.
 ![Creating a Repository on GitHub (Step 2)]({{ page.root }}/fig/git/github-create-repo-02.png)
 
 As soon as the repository is created, GitHub displays a page with a URL and some
-information on how to configure your local repository:
+information on how to configure your local repository. Examine the toggle button
+labeled `HTTPS | SSH`; -make sure to select the SSH button-.
 
 ![Creating a Repository on GitHub (Step 3)]({{ page.root }}/fig/git/github-create-repo-03.png)
 
@@ -1638,8 +1704,8 @@ $ git init
 ```
 {: .language-bash}
 
-If you remember back to the earlier [lesson]({{ page.root }}/04-changes/) where we added and
-committed our earlier work on `notes.txt`, we had a diagram of the local repository
+If you remember back to the earlier [lesson]({{ page.root }}/03-intro-git-github/index.html#versioning-multiple-files) where we added and
+committed our earlier work on `un-report`, we had a diagram of the local repository
 which looked like this:
 
 ![The Local Repository with Git Staging Area]({{ page.root }}/fig/git/git-staging-area.svg)
@@ -1648,7 +1714,7 @@ Now that we have two repositories, we need a diagram like this:
 
 ![Freshly-Made GitHub Repository]({{ page.root }}/fig/git/git-freshly-made-github-repo.svg)
 
-Note that our local repository still contains our earlier work on `notes.txt`, but the
+Note that our local repository still contains our earlier work on `un-report`, but the
 remote repository on GitHub appears empty as it doesn't contain any files yet.
 
 The next step is to connect the two repositories.  We do this by making the
@@ -1661,8 +1727,8 @@ identify it:
 Copy that URL from the browser, go into the local `un-report` repository, and run
 this command:
 
-```
-$ git remote add origin https://github.com/USERNAME/un-report.git
+``  `
+$ git remote add origin git@github.com:USERNAME/un-report.git
 ```
 {: .language-bash}
 
@@ -1681,8 +1747,8 @@ $ git remote -v
 {: .language-bash}
 
 ```
-origin   https://github.com/USERNAME/un-report.git (push)
-origin   https://github.com/USERNAME/un-report.git (fetch)
+origin   git@github.com:USERNAME/un-report.git (push)
+origin   git@github.com:USERNAME/un-report.git (fetch)
 ```
 {: .output}
 
@@ -1690,7 +1756,7 @@ Once the remote is set up, this command will push the changes from
 our local repository to the repository on GitHub:
 
 ```
-$ git push origin master
+$ git push -u origin main
 ```
 {: .language-bash}
 
@@ -1702,8 +1768,8 @@ Compressing objects: 100% (11/11), done.
 Writing objects: 100% (16/16), 1.45 KiB | 372.00 KiB/s, done.
 Total 16 (delta 2), reused 0 (delta 0)
 remote: Resolving deltas: 100% (2/2), done.
-To https://github.com/USERNAME/un-report.git
- * [new branch]      master -> master
+To git@github.com:USERNAME/un-report.git
+ - [new branch]       main -> main
 ```
 {: .output}
 
@@ -1717,19 +1783,19 @@ Our local and remote repositories are now in this state:
 > option is synonymous with the `--set-upstream-to` option for the `git branch`
 > command, and is used to associate the current branch with a remote branch so
 > that the `git pull` command can be used without any arguments. To do this,
-> simply use `git push -u origin master` once the remote has been set up.
+> simply use `git push -u origin main` once the remote has been set up.
 {: .callout}
 
 We can pull changes from the remote repository to the local one as well:
 
 ```
-$ git pull origin master
+$ git pull origin main
 ```
 {: .language-bash}
 
 ```
-From https://github.com/USERNAME/un-report
- * branch            master     -> FETCH_HEAD
+From git@github.com:USERNAME/un-report
+ - branch            main     -> FETCH_HEAD
 Already up-to-date.
 ```
 {: .output}
@@ -1798,7 +1864,7 @@ GitHub, though, this command would download them to our local repository.
 > > repository to your local repository, Git detects that they have histories that do not share a
 > > common origin and refuses to merge.
 > > ```
-> > $ git pull origin master
+> > $ git pull origin main
 > > ```
 > > {: .language-bash}
 > >
@@ -1808,9 +1874,9 @@ GitHub, though, this command would download them to our local repository.
 > > remote: Counting objects: 100% (3/3), done.
 > > remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
 > > Unpacking objects: 100% (3/3), done.
-> > From https://github.com/USERNAME/un-report
-> >  * branch            master     -> FETCH_HEAD
-> >  * [new branch]      master     -> origin/master
+> > From git@github.com:USERNAME/un-report
+> >  - branch            main     -> FETCH_HEAD
+> >  - [new branch]      main     -> origin/main
 > > fatal: refusing to merge unrelated histories
 > > ```
 > > {: .output}
@@ -1819,17 +1885,17 @@ GitHub, though, this command would download them to our local repository.
 > > Be careful when you use this option and carefully examine the contents of local and remote
 > > repositories before merging.
 > > ```
-> > $ git pull --allow-unrelated-histories origin master
+> > $ git pull --allow-unrelated-histories origin main
 > > ```
 > > {: .language-bash}
 > >
 > > ```
-> > From https://github.com/USERNAME/un-report
-> >  * branch            master     -> FETCH_HEAD
+> > From git@github.com:USERNAME/un-report
+> >  - branch            main     -> FETCH_HEAD
 > > Merge made by the 'recursive' strategy.
-> > notes.txt | 1 +
+> > README.md | 1 +
 > > 1 file changed, 1 insertion(+)
-> > create mode 100644 notes.txt
+> > create mode 100644 README.md
 > > ```
 > > {: .output}
 > >
@@ -1867,7 +1933,7 @@ Next, the Collaborator needs to download a copy of the Owner's repository to her
 her `Desktop` folder, the Collaborator enters:
 
 ```
-$ git clone https://github.com/USERNAME/un-report.git ~/Desktop/USERNAME-un-report
+$ git clone git@github.com:USERNAME/un-report.git ~/Desktop/USERNAME-un-report
 ```
 {: .language-bash}
 
@@ -1878,13 +1944,13 @@ exactly the same way as we've been doing before:
 
 ```
 $ cd ~/Desktop/USERNAME-un-report
-$ nano notes.txt
-$ cat notes.txt
+$ nano README.md
+$ cat README.md
 ```
 {: .language-bash}
 
 You can write anything you like. Now might be a good time to list the
-**dependencies** of the project -- the tools and packages that are needed
+--dependencies-- of the project -- the tools and packages that are needed
 to run the code.
 ```
 Dependencies:
@@ -1894,21 +1960,21 @@ Dependencies:
 {: .output}
 
 ```
-$ git add notes.txt
+$ git add README.md
 $ git commit -m "List dependencies"
 ```
 {: .language-bash}
 
 ```
  1 file changed, 1 insertion(+)
- create mode 100644 notes.txt
+ create mode 100644 README.md
 ```
 {: .output}
 
-Then push the change to the *Owner's repository* on GitHub:
+Then push the change to the -Owner's repository- on GitHub:
 
 ```
-$ git push origin master
+$ git push origin main
 ```
 {: .language-bash}
 
@@ -1919,8 +1985,8 @@ Delta compression using up to 4 threads.
 Compressing objects: 100% (2/2), done.
 Writing objects: 100% (3/3), 306 bytes, done.
 Total 3 (delta 0), reused 0 (delta 0)
-To https://github.com/USERNAME/un-report.git
-   9272da5..29aba7c  master -> master
+To git@github.com:USERNAME/un-report.git
+   9272da5..29aba7c  main -> main
 ```
 {: .output}
 
@@ -1935,7 +2001,7 @@ Collaborator.
 To download the Collaborator's changes from GitHub, the Owner now enters:
 
 ```
-$ git pull origin master
+$ git pull origin main
 ```
 {: .language-bash}
 
@@ -1945,14 +2011,14 @@ remote: Counting objects: 100% (4/4), done.
 remote: Compressing objects: 100% (2/2), done.
 remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0
 Unpacking objects: 100% (3/3), done.
-From https://github.com/USERNAME/un-report
- * branch            master     -> FETCH_HEAD
-   9272da5..29aba7c  master     -> origin/master
+From git@github.com:USERNAME/un-report
+ - branch            main     -> FETCH_HEAD
+   9272da5..29aba7c  main     -> origin/main
 Updating 9272da5..29aba7c
 Fast-forward
- notes.txt | 1 +
+ README.md | 1 +
  1 file changed, 1 insertion(+)
- create mode 100644 notes.txt
+ create mode 100644 README.md
 ```
 {: .output}
 
@@ -1965,10 +2031,10 @@ GitHub) are back in sync!
 > repository you are collaborating on, so you should `git pull` before making
 > your changes. The basic collaborative workflow would be:
 >
-> * update your local repo with `git pull`,
-> * make your changes and stage them with `git add`,
-> * commit your changes with `git commit -m`, and
-> * upload the changes to GitHub with `git push`
+> - update your local repo with `git pull`,
+> - make your changes and stage them with `git add`,
+> - commit your changes with `git commit -m`, and
+> - upload the changes to GitHub with `git push`
 >
 > It is better to make many commits with smaller changes rather than
 > one commit with massive changes: small commits are easier to
@@ -2046,400 +2112,45 @@ GitHub) are back in sync!
 > The `git remote` family of commands is used to set up and alter the remotes
 > associated with a repository. Here are some of the most useful ones:
 >
-> * `git remote -v` lists all the remotes that are configured (we already used
+> - `git remote -v` lists all the remotes that are configured (we already used
 > this in the last episode)
-> * `git remote add [name] [url]` is used to add a new remote
-> * `git remote remove [name]` removes a remote. Note that it doesn't affect the
+> - `git remote add [name] [url]` is used to add a new remote
+> - `git remote remove [name]` removes a remote. Note that it doesn't affect the
 > remote repository at all - it just removes the link to it from the local repo.
-> * `git remote set-url [name] [newurl]` changes the URL that is associated
+> - `git remote set-url [name] [newurl]` changes the URL that is associated
 > with the remote. This is useful if it has moved, e.g. to a different GitHub
 > account, or from GitHub to a different hosting service. Or, if we made a typo when
 > adding it!
-> * `git remote rename [oldname] [newname]` changes the local alias by which a remote
+> - `git remote rename [oldname] [newname]` changes the local alias by which a remote
 > is known - its name. For example, one could use this to change `upstream` to `fred`.
 {: .callout}
-
-## Bonus
-_[Back to top](#contents)_
-
-- [Exploring History](#exploring-history)
-
-### Exploring history
-
-We can refer to commits by their identifiers shown in `log`. You can also refer
-to the _most recent commit_ of the working directory by using the identifier
-`HEAD`.
-
-We've been adding one line at a time to `notes.txt`, so it's easy to track our
-progress by looking, so let's do that using our `HEAD`s.  Before we start,
-let's make a change to `notes.txt`, adding yet another line.
-
-```
-$ nano notes.txt
-$ cat notes.txt
-```
-{: .language-bash}
-
-```
-We plotted life expectancy over time.
-Each point represents a country.
-Continents are grouped by color.
-An ill-considered change.
-```
-{: .output}
-
-Now, let's see what we get.
-
-```
-$ git diff HEAD notes.txt
-```
-{: .language-bash}
-
-```
-diff --git a/notes.txt b/notes.txt
-index b36abfd..0848c8d 100644
---- a/notes.txt
-+++ b/notes.txt
-@@ -1,3 +1,4 @@
- We plotted life expectancy over time.
- Each point represents a country.
- Continents are grouped by color.
-+An ill-considered change.
-```
-{: .output}
-
-which is the same as what you would get if you leave out `HEAD` (try it).  The
-real goodness in all this is when you can refer to previous commits.  We do
-that by adding `~1`
-(where "~" is "tilde", pronounced [**til**-d*uh*])
-to refer to the commit one before `HEAD`.
-
-```
-$ git diff HEAD~1 notes.txt
-```
-{: .language-bash}
-
-If we want to see the differences between older commits we can use `git diff`
-again, but with the notation `HEAD~1`, `HEAD~2`, and so on, to refer to them:
-
-```
-$ git diff HEAD~3 notes.txt
-```
-{: .language-bash}
-
-```
-diff --git a/notes.txt b/notes.txt
-index df0654a..b36abfd 100644
---- a/notes.txt
-+++ b/notes.txt
-@@ -1 +1,4 @@
- We plotted life expectancy over time.
-+Each point represents a country.
-+Continents are grouped by color.
-+An ill-considered change
-```
-{: .output}
-
-We could also use `git show` which shows us what changes we made at an older commit as
-well as the commit message, rather than the _differences_ between a commit and our
-working directory that we see by using `git diff`.
-
-```
-$ git show HEAD~3 notes.txt
-```
-{: .language-bash}
-
-```
-commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
-Author: Riley Shor <Riley.Shor@fake.email.address>
-Date:   Thu Aug 22 09:51:46 2020 -0400
-
-    Make a change that I'll regret later
-
-diff --git a/notes.txt b/notes.txt
-new file mode 100644
-index 0000000..df0654a
---- /dev/null
-+++ b/notes.txt
-@@ -0,0 +1 @@
-+We plotted life expectancy over time.
-```
-{: .output}
-
-In this way,
-we can build up a chain of commits.
-The most recent end of the chain is referred to as `HEAD`;
-we can refer to previous commits using the `~` notation,
-so `HEAD~1`
-means "the previous commit",
-while `HEAD~123` goes back 123 commits from where we are now.
-
-We can also refer to commits using
-those long strings of digits and letters
-that `git log` displays.
-These are unique IDs for the changes,
-and "unique" really does mean unique:
-every change to any set of files on any computer
-has a unique 40-character identifier.
-Our first commit was given the ID
-`f22b25e3233b4645dabd0d81e651fe074bd8e73b`,
-so let's try this:
-
-```
-$ git diff f22b25e3233b4645dabd0d81e651fe074bd8e73b notes.txt
-```
-{: .language-bash}
-
-```
-diff --git a/notes.txt b/notes.txt
-index df0654a..93a3e13 100644
---- a/notes.txt
-+++ b/notes.txt
-@@ -1 +1,4 @@
- We plotted life expectancy over time.
-+Each point represents a country.
-+Continents are grouped by color.
-+An ill-considered change
-```
-{: .output}
-
-That's the right answer,
-but typing out random 40-character strings is annoying,
-so Git lets us use just the first few characters (typically seven for normal size projects):
-
-```
-$ git diff f22b25e notes.txt
-```
-{: .language-bash}
-
-```
-diff --git a/notes.txt b/notes.txt
-index df0654a..93a3e13 100644
---- a/notes.txt
-+++ b/notes.txt
-@@ -1 +1,4 @@
- We plotted life expectancy over time.
-+Each point represents a country.
-+Continents are grouped by color.
-+An ill-considered change
-```
-{: .output}
-
-All right! So
-we can save changes to files and see what we've changed. Now, how
-can we restore older versions of things?
-Let's suppose we change our mind about the last update to
-`notes.txt` (the "ill-considered change").
-
-`git status` now tells us that the file has been changed,
-but those changes haven't been staged:
-
-```
-$ git status
-```
-{: .language-bash}
-
-```
-On branch master
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
-
-    modified:   notes.txt
-
-no changes added to commit (use "git add" and/or "git commit -a")
-```
-{: .output}
-
-We can put things back the way they were
-by using `git checkout`:
-
-```
-$ git checkout HEAD notes.txt
-$ cat notes.txt
-```
-{: .language-bash}
-
-```
-We plotted life expectancy over time.
-Each point represents a country.
-Continents are grouped by color.
-```
-{: .output}
-
-As you might guess from its name,
-`git checkout` checks out (i.e., restores) an old version of a file.
-In this case,
-we're telling Git that we want to recover the version of the file recorded in `HEAD`,
-which is the last saved commit.
-If we want to go back even further,
-we can use a commit identifier instead:
-
-```
-$ git checkout f22b25e notes.txt
-```
-{: .language-bash}
-
-```
-$ cat notes.txt
-```
-{: .language-bash}
-
-```
- We plotted life expectancy over time.
-```
-{: .output}
-
-```
-$ git status
-```
-{: .language-bash}
-
-```
-On branch master
-Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-
-    modified:   notes.txt
-
-```
-{: .output}
-
-Notice that the changes are currently in the staging area.
-Again, we can put things back the way they were
-by using `git checkout`:
-
-```
-$ git checkout HEAD notes.txt
-```
-{: .language-bash}
-
-> ## Don't Lose Your HEAD
->
-> Above we used
->
-> ```
-> $ git checkout f22b25e notes.txt
-> ```
-> {: .language-bash}
->
-> to revert `notes.txt` to its state after the commit `f22b25e`. But be careful!
-> The command `checkout` has other important functionalities and Git will misunderstand
-> your intentions if you are not accurate with the typing. For example,
-> if you forget `notes.txt` in the previous command.
->
-> ```
-> $ git checkout f22b25e
-> ```
-> {: .language-bash}
-> ```
-> Note: checking out 'f22b25e'.
->
-> You are in 'detached HEAD' state. You can look around, make experimental
-> changes and commit them, and you can discard any commits you make in this
-> state without impacting any branches by performing another checkout.
->
-> If you want to create a new branch to retain commits you create, you may
-> do so (now or later) by using -b with the checkout command again. Example:
->
->  git checkout -b <new-branch-name>
->
-> HEAD is now at f22b25e Make a change that I'll regret later
-> ```
-> {: .error}
->
-> The "detached HEAD" is like "look, but don't touch" here,
-> so you shouldn't make any changes in this state.
-> After investigating your repo's past state, reattach your `HEAD` with `git checkout master`.
-{: .callout}
-
-It's important to remember that
-we must use the commit number that identifies the state of the repository
-*before* the change we're trying to undo.
-A common mistake is to use the number of
-the commit in which we made the change we're trying to discard.
-In the example below, we want to retrieve the state from before the most
-recent commit (`HEAD~1`), which is commit `f22b25e`:
-
-![Git Checkout]({{ page.root }}/fig/git/git-checkout.svg)
-
-We have now reverted our current file and commit to the latest version without the bug. But we have kept the commit and history from the commit that had the error.
-
-> ## Simplifying the Common Case
->
-> If you read the output of `git status` carefully,
-> you'll see that it includes this hint:
->
-> ```
-> (use "git checkout -- <file>..." to discard changes in working directory)
-> ```
-> {: .language-bash}
->
-> As it says,
-> `git checkout` without a version identifier restores files to the state saved in `HEAD`.
-> The double dash `--` is needed to separate the names of the files being recovered
-> from the command itself:
-> without it,
-> Git would try to use the name of the file as the commit identifier.
-{: .callout}
-
-The fact that files can be reverted one by one
-tends to change the way people organize their work.
-If everything is in one large document,
-it's hard (but not impossible) to undo changes to the introduction
-without also undoing changes made later to the conclusion.
-If the introduction and conclusion are stored in separate files,
-on the other hand,
-moving backward and forward in time becomes much easier.
-
-> ## Recovering Older Versions of a File
->
-> Jennifer has made changes to the Python script that she has been working on for weeks, and the
-> modifications she made this morning "broke" the script and it no longer runs. She has spent
-> ~ 1hr trying to fix it, with no luck...
->
-> Luckily, she has been keeping track of her project's versions using Git! Which commands below will
-> let her recover the last committed version of her Python script called
-> `data_cruncher.py`?
->
-> 1. `$ git checkout HEAD`
->
-> 2. `$ git checkout HEAD data_cruncher.py`
->
-> 3. `$ git checkout HEAD~1 data_cruncher.py`
->
-> 4. `$ git checkout <unique ID of last commit> data_cruncher.py`
->
-> 5. Both 2 and 4
->
->
-> > ## Solution
-> >
-> > The answer is (5)-Both 2 and 4.
-> >
-> > The `checkout` command restores files from the repository, overwriting the files in your working
-> > directory. Answers 2 and 4 both restore the *latest* version *in the repository* of the file
-> > `data_cruncher.py`. Answer 2 uses `HEAD` to indicate the *latest*, whereas answer 4 uses the
-> > unique ID of the last commit, which is what `HEAD` means.
-> >
-> > Answer 3 gets the version of `data_cruncher.py` from the commit *before* `HEAD`, which is NOT
-> > what we wanted.
-> >
-> > Answer 1 can be dangerous! Without a filename, `git checkout` will restore **all files**
-> > in the current directory (and all directories below it) to their state at the commit specified.
-> > This command will restore `data_cruncher.py` to the latest commit version, but it will also
-> > restore *any other files that are changed* to that version, erasing any changes you may
-> > have made to those files!
-> > As discussed above, you are left in a *detached* `HEAD` state, and you don't want to be there.
-> {: .solution}
-{: .challenge}
 
 
 ## Glossary
 
-Commands:
-- `init` - creates a new git repository in your current working directory
-- `status` -
+Key commands:
+- commands to interact with local repository:
+  - config
+  - init
+  - status
+  - add
+  - commit
+  - restore
+  - log
+  - diff
+  - show
+  - checkout
+  - revert
+- commands to interact with remote repository
+  - remote
+  - clone
+  - push
+  - pull
 
-Terms:
-- branch -
+
+Key concepts
+  - .git/
+  - staging area
+  - .gitignore
+  - SSH key
+  - GitHub
