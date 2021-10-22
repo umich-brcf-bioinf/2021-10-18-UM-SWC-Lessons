@@ -495,7 +495,7 @@ Note that Git recognizes the file was changed since the last commit.
 We will `add` and `commit` these new changes.
 
 ```
-git add
+git add bash-cheatsheet.txt
 git commit -m'Added basic commands'
 ```
 {: .language-bash}
@@ -622,7 +622,7 @@ Riley.Shor@fake.email.address
 And `add` and `commit` that new file:
 
 ```
-git add
+git add README.md
 git commit -m'Added README'
 git status
 ```
@@ -650,7 +650,7 @@ Scripts to read and interpret gapminder data.
 ```
 
 ```
-git add
+git add README.md
 git commit -m'Added a summary of the project'
 ```
 {: .language-bash}
@@ -672,7 +672,7 @@ the relationship of GDP and life expectancy across countries.
 ```
 
 ```
-git add
+git add README.md
 git commit -m'Updated summary with details on figures'
 ```
 {: .language-bash}
@@ -868,7 +868,7 @@ data : gapminder text data
 figures : plots
 ```
 
-Check that there is a difference between the working copy and the last repo:
+Check that there is a difference between the working dir and the last repo:
 
 ```
 git status
@@ -886,7 +886,7 @@ no changes added to commit (use "git add" and/or "git commit -a")
 ```
 {: .output}
 
-See the actual differences between the working copy of the file and the last
+See the actual differences between the working dir of the file and the last
 commit with  `git diff`:
 
 ```
@@ -979,7 +979,7 @@ git status
 ```
 {: .language-bash}
 
-At times, it might make sense to abandon the changes in the working copy and
+At times, it might make sense to abandon the changes in the working dir and
 replace with the last commit.
 
 ```
@@ -1056,7 +1056,7 @@ HEAD is now at ac0b28a Added README
 
 
 Git has rewound the clock and dropped you into an earlier version. Note the log
-shows only the one change and git has replaced your working copy with the
+shows only the one change and git has replaced your working dir with the
 earliest version of this file.
 
 ```
@@ -1691,7 +1691,7 @@ repository `un-report`.
 
 As soon as the repository is created, GitHub displays a page with a URL and some
 information on how to configure your local repository. Examine the toggle button
-labeled `HTTPS | SSH`; -make sure to select the SSH button-.
+labeled `HTTPS | SSH`; __make sure to select the SSH button__.
 
 ![Creating a Repository on GitHub (Step 3)]({{ page.root }}/fig/git/github-create-repo-03.png)
 
@@ -1727,7 +1727,7 @@ identify it:
 Copy that URL from the browser, go into the local `un-report` repository, and run
 this command:
 
-``  `
+```
 git remote add origin git@github.com:USERNAME/un-report.git
 ```
 {: .language-bash}
@@ -2128,29 +2128,29 @@ GitHub) are back in sync!
 
 ## Glossary
 
+Key concepts
+  - .git/ : hidden dir at the top of the project that contains *all* of gits internals about the repository; you typically don't interact with the contents of this directory directly but instead use git commands above.
+  - staging area : the set of changes files that are ready to be committed
+  - commit: a version of the project; each version will be assigned a unique commit index
+  - .gitignore: a way to exclude files from the git repo based on their name
+  - SSH key: establishes a secure trust relationship between two systems (e.g. your laptop and GitHub)
+  - GitHub: a website that hosts Git repositories for sharing and collaboration.
+
 Key commands:
 - commands to interact with local repository:
-  - config
-  - init
-  - status
-  - add
-  - commit
-  - restore
-  - log
-  - diff
-  - show
-  - checkout
-  - revert
+  - config : configure an option (like user.email); can be global or local to a repository.
+  - init : initialize a dir as a Git repository\.
+  - add : mark a file should be included in the next commit.
+  - commit : create a new version of the project using the files in the staging area
+  - status : list the state of the working dir vs staging area vs last commit.
+  - restore : abandon changes in progress and switch to the last committed version.
+  - log : show versions (commits) from newest to oldest changes.
+  - diff: show the differences between one version and another
+  - show: combines output of log and diff above for a single commit
+  - checkout: wind the clock back and have a look at an earlier commit
+  - revert: undo a commit; more precisely add a new commit that inverts the change in a previous commit
 - commands to interact with remote repository
-  - remote
-  - clone
-  - push
-  - pull
-
-
-Key concepts
-  - .git/
-  - staging area
-  - .gitignore
-  - SSH key
-  - GitHub
+  - remote : list or add a remote repository
+  - clone : initialize a local repository based on a remote
+  - push : move local changes into remote repository
+  - pull : move remote changes into local repository
