@@ -8,6 +8,7 @@
 #    source 'http://rubygems.org'
 # cgates 10/15/2021
 source 'https://rubygems.org'
+#source 'http://rubygems.org'
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
