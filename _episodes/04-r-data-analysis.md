@@ -76,7 +76,7 @@ library(tidyverse)
 
 
 ~~~
-── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──
+── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.1 ──
 ~~~
 {: .output}
 
@@ -93,7 +93,7 @@ library(tidyverse)
 
 
 ~~~
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ✖ dplyr::filter() masks stats::filter()
 ✖ dplyr::lag()    masks stats::lag()
 ~~~
@@ -121,7 +121,7 @@ Rows: 1704 Columns: 6
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (2): country, continent
 dbl (4): year, pop, lifeExp, gdpPercap
@@ -481,10 +481,10 @@ gapminder_data %>%
 
 This will add a new column called "gdp" to our data. We use the column names as if they were regular values that we want to perform mathematical operations on and provide the name in front of an equals sign like we have done with `summarize()`
 
-> Exercise: `mutate()`
+> ## Exercise: `mutate()`
 > We can also multiply by constants or other numbers using mutate - remember how in the plotting lesson we made a plot with population in millions? Try making a new column for this dataframe called popInMillions that is the population in million.
 >
-> > Solution:
+> > ## Solution:
 > > 
 > > ~~~
 > > gapminder_data %>%  
@@ -496,21 +496,22 @@ This will add a new column called "gdp" to our data. We use the column names as 
 > > 
 > > ~~~
 > > # A tibble: 1,704 × 8
-> >    country      year      pop continent lifeExp gdpPercap          gdp popInMillions
-> >    <chr>       <dbl>    <dbl> <chr>       <dbl>     <dbl>        <dbl>         <dbl>
-> >  1 Afghanistan  1952  8425333 Asia         28.8      779.  6567086330.          8.43
-> >  2 Afghanistan  1957  9240934 Asia         30.3      821.  7585448670.          9.24
-> >  3 Afghanistan  1962 10267083 Asia         32.0      853.  8758855797.         10.3 
-> >  4 Afghanistan  1967 11537966 Asia         34.0      836.  9648014150.         11.5 
-> >  5 Afghanistan  1972 13079460 Asia         36.1      740.  9678553274.         13.1 
-> >  6 Afghanistan  1977 14880372 Asia         38.4      786. 11697659231.         14.9 
-> >  7 Afghanistan  1982 12881816 Asia         39.9      978. 12598563401.         12.9 
-> >  8 Afghanistan  1987 13867957 Asia         40.8      852. 11820990309.         13.9 
-> >  9 Afghanistan  1992 16317921 Asia         41.7      649. 10595901589.         16.3 
-> > 10 Afghanistan  1997 22227415 Asia         41.8      635. 14121995875.         22.2 
+> >    country      year      pop continent lifeExp gdpPercap      gdp popInMillions
+> >    <chr>       <dbl>    <dbl> <chr>       <dbl>     <dbl>    <dbl>         <dbl>
+> >  1 Afghanistan  1952  8425333 Asia         28.8      779.  6.57e 9          8.43
+> >  2 Afghanistan  1957  9240934 Asia         30.3      821.  7.59e 9          9.24
+> >  3 Afghanistan  1962 10267083 Asia         32.0      853.  8.76e 9         10.3 
+> >  4 Afghanistan  1967 11537966 Asia         34.0      836.  9.65e 9         11.5 
+> >  5 Afghanistan  1972 13079460 Asia         36.1      740.  9.68e 9         13.1 
+> >  6 Afghanistan  1977 14880372 Asia         38.4      786.  1.17e10         14.9 
+> >  7 Afghanistan  1982 12881816 Asia         39.9      978.  1.26e10         12.9 
+> >  8 Afghanistan  1987 13867957 Asia         40.8      852.  1.18e10         13.9 
+> >  9 Afghanistan  1992 16317921 Asia         41.7      649.  1.06e10         16.3 
+> > 10 Afghanistan  1997 22227415 Asia         41.8      635.  1.41e10         22.2 
 > > # … with 1,694 more rows
 > > ~~~
 > > {: .output}
+> >
 > {: .solution}
 {: .challenge}
 
@@ -577,10 +578,10 @@ gapminder_data %>%
 ~~~
 {: .output}
 
-> Exercise: selecting columns
+> ## Exercise: selecting columns
 > Create a dataframe with only the `country`, `continent`, `year`, and `lifeExp` columns.
 >
-> > Solution:
+> > ## Solution:
 > > There are multiple ways to do this exercise. Here are two different possibilities.
 > >
 > > 
@@ -635,6 +636,7 @@ gapminder_data %>%
 > > # … with 1,694 more rows
 > > ~~~
 > > {: .output}
+> >
 > {: .solution}
 {: .challenge}
 
@@ -752,10 +754,10 @@ Notice here that we tell `pivot_wider()` which columns to pull the names we wish
 
 Before we move on to more data cleaning, let's create the final gapminder dataframe we will be working with for the rest of the lesson!
 
-> Exercise: final Americas 2007 gapminder dataset
+> ## Exercise: final Americas 2007 gapminder dataset
 > Read in the `gapminder_data.csv` file, filter out the year 2007 and the continent "Americas." Then drop the `year` and `continent` columns from the dataframe. Then save the new dataframe into a variable called `gapminder_data_2007`.
 >
-> > Solution:
+> > ## Solution:
 > > 
 > > ~~~
 > > gapminder_data_2007 <- read_csv("data/gapminder_data.csv") %>%
@@ -774,7 +776,7 @@ Before we move on to more data cleaning, let's create the final gapminder datafr
 > > 
 > > 
 > > ~~~
-> > ── Column specification ────────────────────────────────────────────────────────
+> > ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 > > Delimiter: ","
 > > chr (2): country, continent
 > > dbl (4): year, pop, lifeExp, gdpPercap
@@ -789,6 +791,7 @@ Before we move on to more data cleaning, let's create the final gapminder datafr
 > > ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 > > ~~~
 > > {: .output}
+> >
 > {: .solution}
 {: .challenge}
 
@@ -870,7 +873,7 @@ Rows: 2133 Columns: 7
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (7): T24, CO2 emission estimates, ...3, ...4, ...5, ...6, ...7
 ~~~
@@ -931,7 +934,7 @@ Rows: 2132 Columns: 7
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (4): ...2, Series, Footnotes, Source
 dbl (3): Region/Country/Area, Year, Value
@@ -969,8 +972,13 @@ dbl (3): Region/Country/Area, Year, Value
 
 Now we get a similar Warning message as before, but the outputted table looks better.
 
-> **Warnings and Errors:**It's important to differentiate between Warnings and Errors in R. A warning tells us, "you might want to know about this issue, but R still did what you asked". An error tells us, "there's something wrong with your code or your data and R didn't do what you asked". You need to fix any errors that arise. Warnings, are probably best to resolve or at least understand why they are coming up.
-{.callout}
+> ## Warnings and Errors:
+> It's important to differentiate between Warnings and Errors in R.
+> - A __warning__ tells us, "you might want to know about this issue, but R still did what you asked".
+> - An __error__ tells us, "there's something wrong with your code or your data and R didn't do what you asked".
+>
+> You need to fix any errors that arise. Warnings, are probably best to resolve or at least understand why they are coming up.
+{: .callout}
 
 We can resolve this warning by telling `read_csv()` what the column names should be with the `col_names()` argument where we give it the column names we want within the c() function separated by commas. If we do this, then we need to set skip to 2 to also skip the column headings.
 
@@ -991,7 +999,7 @@ Rows: 2132 Columns: 7
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (4): country, series, footnotes, source
 dbl (3): region, year, value
@@ -1034,7 +1042,7 @@ dbl (3): region, year, value
 > 
 > ~~~
 > read_csv("data/co2-un-data.csv", skip=1) %>%
->   rename(country=X2)
+>   rename(country=`...2`)
 > ~~~
 > {: .language-r}
 > 
@@ -1056,7 +1064,7 @@ dbl (3): region, year, value
 > 
 > 
 > ~~~
-> ── Column specification ────────────────────────────────────────────────────────
+> ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 > Delimiter: ","
 > chr (4): ...2, Series, Footnotes, Source
 > dbl (3): Region/Country/Area, Year, Value
@@ -1075,10 +1083,22 @@ dbl (3): region, year, value
 > 
 > 
 > ~~~
-> Error: Can't rename columns that don't exist.
-> ✖ Column `X2` doesn't exist.
+> # A tibble: 2,132 × 7
+>    `Region/Country/Area` country  Year Series       Value Footnotes Source      
+>                    <dbl> <chr>   <dbl> <chr>        <dbl> <chr>     <chr>       
+>  1                     8 Albania  1975 Emissions … 4.34e3 <NA>      Internation…
+>  2                     8 Albania  1985 Emissions … 6.93e3 <NA>      Internation…
+>  3                     8 Albania  1995 Emissions … 1.85e3 <NA>      Internation…
+>  4                     8 Albania  2005 Emissions … 3.83e3 <NA>      Internation…
+>  5                     8 Albania  2010 Emissions … 3.93e3 <NA>      Internation…
+>  6                     8 Albania  2015 Emissions … 3.82e3 <NA>      Internation…
+>  7                     8 Albania  2016 Emissions … 3.67e3 <NA>      Internation…
+>  8                     8 Albania  2017 Emissions … 4.34e3 <NA>      Internation…
+>  9                     8 Albania  1975 Emissions … 1.80e0 <NA>      Internation…
+> 10                     8 Albania  1985 Emissions … 2.34e0 <NA>      Internation…
+> # … with 2,122 more rows
 > ~~~
-> {: .error}
+> {: .output}
 >
 > Many data analysts prefer to have their column headings and variable names be in all lower case. We can use a variation of `rename()`, which is `rename_all()` that allows us to set all of the column headings to lower case by giving it the name of the tolower function, which makes everything lowercase.
 >
@@ -1107,7 +1127,7 @@ dbl (3): region, year, value
 > 
 > 
 > ~~~
-> ── Column specification ────────────────────────────────────────────────────────
+> ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 > Delimiter: ","
 > chr (4): ...2, Series, Footnotes, Source
 > dbl (3): Region/Country/Area, Year, Value
@@ -1146,10 +1166,10 @@ dbl (3): region, year, value
 
 We previously saw how we can subset columns from a data frame using the select function. There are a lot of columns with extraneous information in this dataset, let's subset out the columns we are interested in.
 
-> Exercise: reviewing selecting columns
+> ## Exercise: reviewing selecting columns
 > Select the country, year, series, and value columns from our dataset.
 >
-> > Solution:
+> > ## Solution:
 > > 
 > > ~~~
 > > read_csv("data/co2-un-data.csv", skip=2,
@@ -1168,7 +1188,7 @@ We previously saw how we can subset columns from a data frame using the select f
 > > 
 > > 
 > > ~~~
-> > ── Column specification ────────────────────────────────────────────────────────
+> > ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 > > Delimiter: ","
 > > chr (4): country, series, footnotes, source
 > > dbl (3): region, year, value
@@ -1203,6 +1223,7 @@ We previously saw how we can subset columns from a data frame using the select f
 > > # … with 2,122 more rows
 > > ~~~
 > > {: .output}
+> >
 > {: .solution}
 {: .challenge}
 
@@ -1228,7 +1249,7 @@ Rows: 2132 Columns: 7
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (4): country, series, footnotes, source
 dbl (3): region, year, value
@@ -1287,7 +1308,7 @@ Rows: 2132 Columns: 7
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (4): country, series, footnotes, source
 dbl (3): region, year, value
@@ -1351,7 +1372,7 @@ Excellent! The last step before we can join this data frame is to get the most d
 > 
 > 
 > ~~~
-> ── Column specification ────────────────────────────────────────────────────────
+> ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 > Delimiter: ","
 > chr (4): country, series, footnotes, source
 > dbl (3): region, year, value
@@ -1388,10 +1409,10 @@ Excellent! The last step before we can join this data frame is to get the most d
 {: .solution}
 
 
-> Exercise:
+> ## Exercise:
 > Filter out data from 2005 and then drop the year column. (Since we will have only data from one year, it is now irrelevant.)
 >
-> > Solution:
+> > ## Solution:
 > > 
 > > ~~~
 > > read_csv("data/co2-un-data.csv", skip=2,
@@ -1415,7 +1436,7 @@ Excellent! The last step before we can join this data frame is to get the most d
 > > 
 > > 
 > > ~~~
-> > ── Column specification ────────────────────────────────────────────────────────
+> > ── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 > > Delimiter: ","
 > > chr (4): country, series, footnotes, source
 > > dbl (3): region, year, value
@@ -1450,6 +1471,7 @@ Excellent! The last step before we can join this data frame is to get the most d
 > > # … with 130 more rows
 > > ~~~
 > > {: .output}
+> >
 > {: .solution}
 {: .challenge}
 
@@ -1479,7 +1501,7 @@ Rows: 2132 Columns: 7
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (4): country, series, footnotes, source
 dbl (3): region, year, value
@@ -1495,8 +1517,12 @@ dbl (3): region, year, value
 ~~~
 {: .output}
 
-> **Looking at your data:** You can get a look at your data-cleaning hard work by navigating to the **Environment** tab in RStudio and clicking the table icon next to the variable name. Notice when we do this, RStudio automatically runs the `View()` command. We've made a lot of progress!
-{.callout}
+> ## Looking at your data
+> You can get a look at your data-cleaning hard work by navigating to the **Environment**
+> tab in RStudio and clicking the table icon next to the variable name.
+> Notice when we do this, RStudio automatically runs the `View()` command.
+> We've made a lot of progress!
+{: .callout}
 
 # Joining data frames {#joining-data-frames}
 
@@ -1523,7 +1549,7 @@ Rows: 1704 Columns: 6
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (2): country, continent
 dbl (4): year, pop, lifeExp, gdpPercap
@@ -1680,7 +1706,7 @@ Rows: 2132 Columns: 7
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (4): country, series, footnotes, source
 dbl (3): region, year, value
@@ -1746,7 +1772,7 @@ Rows: 1704 Columns: 6
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (2): country, continent
 dbl (4): year, pop, lifeExp, gdpPercap
@@ -1788,7 +1814,7 @@ Rows: 1704 Columns: 6
 
 
 ~~~
-── Column specification ────────────────────────────────────────────────────────
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 Delimiter: ","
 chr (2): country, continent
 dbl (4): year, pop, lifeExp, gdpPercap
@@ -2007,13 +2033,14 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 
 > ## Exercise: changing directories
 > Print your current working directory and list the items in the directory to check where you are. If you are not in the un-report directory, navigate there.
-> > Solution:
+> > ## Solution:
 > > ```
 > > pwd  
 > > ls
 > > cd ~/Desktop/un-report  
 > > ls
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
@@ -2021,7 +2048,7 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 >
 > Pull to make sure our local repository is up to date. Then add, commit, and push your commits to GitHub. Don't forget to check your git status periodically to make sure everything is going as expected!
 >
-> > Solution:
+> > ## Solution:
 > > ```
 > > git status
 > > git pull
@@ -2034,233 +2061,135 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 > > git push
 > > git status
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
 
-# Bonus
+# Putting it all together
+_[Back to top](#contents)_
 
-## Bonus content
+We've gone through many steps of cleaning, joining, and analyzing our data.
+As a challenge, create an RScript file that contains the code to clean up the
+gapminder and CO2 emissions data, joins the two data frames, and builds the
+plot and summary table comparing Canada, the United States, and Mexico to the
+rest of the Americas. You can even practice some of the `ggplot` skills you
+learned earlier to move that plot beyond the ggplot2 defaults.
 
-### Sort data with `arrange()`
-
-The `arrange()` function allows us to sort our data by some value. Let's use the `gapminder_data` dataframe. We will take the average value for each continent in 2007 and then sort it so the continents with the longest life expectancy are on top. Which continent might you guess has be highest life expectancy before running the code?
-
-The helper function `ends_with()` can help us here.
 
 ~~~
-gapminder_data %>%
- filter(year==2007) %>%
- group_by(continent) %>%
- summarise(average= mean(lifeExp)) %>%
- arrange(desc(average))
+# Load and prepare gapminder data
+gapminder_co2 %>%
+  mutate(region = if_else(country == "Canada" |
+                            country == "United States" |
+                            country == "Mexico", "north", "south")) %>%
+  group_by(region) %>%
+  summarize(sumtotal = sum(total),
+            sumpop = sum(pop))
 ~~~
 {: .language-r}
 
 
 
 ~~~
-Error: Problem with `filter()` input `..1`.
-ℹ Input `..1` is `year == 2007`.
-✖ object 'year' not found
+# A tibble: 2 × 3
+  region sumtotal    sumpop
+  <chr>     <dbl>     <dbl>
+1 north  6656037. 447173470
+2 south   889332. 451697714
 ~~~
-{: .error}
-
-Notice there that we can use the column created the in the `summarize()` step ("average") later in the `arrange()` step. We also use the `desc()` function here to sort the values in a descending order so the largest values are on top. The default is to put the smallest values on top.
+{: .output}
 
 
-## Bonus exercises
-
-> ## Exercise: Calculating percent
->
-> What percentage of the population and CO2 emissions in the Americas does the United States make up? What percentage of the population and CO2 emission does North America make up?
->
-> > ## Solution
-> >
-> > Create a new variable using `mutate()` that calculates percentages for the pop and total variables.
-> >
-> > 
-> > ~~~
-> > gapminder_co2 %>%
-> >   mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south")) %>%
-> >   mutate(totalPercent = total/sum(total)*100,
-> >          popPercent = pop/sum(pop)*100)
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > # A tibble: 24 × 9
-> >    country            lifeExp gdpPercap    pop  total per_capita region totalPercent
-> >    <chr>                <dbl>     <dbl>  <dbl>  <dbl>      <dbl> <chr>         <dbl>
-> >  1 Argentina             75.3    12779. 4.03e7 1.49e5      3.82  south        1.98  
-> >  2 Bolivia               65.6     3822. 9.12e6 8.98e3      0.984 south        0.119 
-> >  3 Brazil                72.4     9066. 1.90e8 3.12e5      1.67  south        4.13  
-> >  4 Canada                80.7    36319. 3.34e7 5.40e5     16.8   north        7.16  
-> >  5 Chile                 78.6    13172. 1.63e7 5.44e4      3.34  south        0.721 
-> >  6 Colombia              72.9     7007. 4.42e7 5.36e4      1.24  south        0.710 
-> >  7 Costa Rica            78.8     9645. 4.13e6 5.46e3      1.29  south        0.0724
-> >  8 Cuba                  78.3     8948. 1.14e7 2.51e4      2.22  south        0.332 
-> >  9 Dominican Republic    72.2     6025. 9.32e6 1.75e4      1.90  south        0.232 
-> > 10 Ecuador               75.0     6873. 1.38e7 2.39e4      1.74  south        0.317 
-> > # … with 14 more rows, and 1 more variable: popPercent <dbl>
-> > ~~~
-> > {: .output}
-> >
-> > This table shows that the United states makes up 33% of the population of the Americas, but accounts for 77% of total emissions. Now let's take a look at population and emission for the two different continents:
-> >
-> > 
-> > ~~~
-> > gapminder_co2 %>%
-> >   mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south")) %>%
-> >   mutate(totalPercent = total/sum(total)*100,
-> >          popPercent = pop/sum(pop)*100) %>%
-> >   group_by(region) %>%
-> >   summarize(sumTotalPercent = sum(totalPercent),
-> >             sumPopPercent = sum(popPercent))
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > # A tibble: 2 × 3
-> >   region sumTotalPercent sumPopPercent
-> >   <chr>            <dbl>         <dbl>
-> > 1 north             88.2          49.7
-> > 2 south             11.8          50.3
-> > ~~~
-> > {: .output}
-> >
-> {: .solution}
-{: .challenge}
+~~~
+# Load and prepare co2 emissions data
+co2_emissions <- read_csv("data/co2-un-data.csv", skip=2,
+                          col_names=c("region", "country", "year", "series", "value", "footnotes", "source")) %>%
+  select(country, year, series, value) %>%
+  mutate(series = recode(series, "Emissions (thousand metric tons of carbon dioxide)" = "total",
+                         "Emissions per capita (metric tons of carbon dioxide)" = "per_capita")) %>%
+  pivot_wider(names_from=series, values_from=value) %>%
+  filter(year==2005) %>%
+  select(-year) %>%
+  mutate(country=recode(country,
+                        "Bolivia (Plurin. State of)" = "Bolivia",
+                        "United States of America" = "United States",
+                        "Venezuela (Boliv. Rep. of)" = "Venezuela")
+  )
+~~~
+{: .language-r}
 
 
 
-> ## Exercise: CO2 bar plot
-> Create a bar plot of the percent of emissions for each country, colored by north and south america (HINT: use geom_col())  
-> > ## Solution
-> > 
-> > ~~~
-> > gapminder_co2 %>% ggplot(aes(x = country, y = total_emissionsPercent, fill = region)) +  
-> > geom_col()  
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error in FUN(X[[i]], ...): object 'total_emissionsPercent' not found
-> > ~~~
-> > {: .error}
-> > 
-> > <img src="../fig/rmd-04-unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3" width="612" style="display: block; margin: auto;" />
-> {: .solution}
->
-> Now rotate the x-labels by 90 degrees (if you don't remember how, google it again or look at our code from the ggplot lesson)  
->
-> > ## Solution
-> > 
-> > ~~~
-> > gapminder_co2 %>% ggplot(aes(x = country, y = total_emissionsPercent, fill = region)) +  
-> > geom_col() +  
-> > theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error in FUN(X[[i]], ...): object 'total_emissionsPercent' not found
-> > ~~~
-> > {: .error}
-> > 
-> > <img src="../fig/rmd-04-unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" width="612" style="display: block; margin: auto;" />
-> {: .solution}
->
-> Reorder the bars in descending order. **Hint:** try Googling how to use the `reorder()` function with ggplot.
-> > ## Solution
-> > 
-> > ~~~
-> > gapminder_co2 %>% ggplot(aes(x = reorder(country, - total_emissionsPercent), y = total_emissionsPercent, fill = region)) +  
-> > geom_col() +  
-> > theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error in tapply(X = X, INDEX = x, FUN = FUN, ...): object 'total_emissionsPercent' not found
-> > ~~~
-> > {: .error}
-> > 
-> > <img src="../fig/rmd-04-unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" width="612" style="display: block; margin: auto;" />
-> {: .solution}
->
-> Practice making it look pretty!
-{: .challenge}
+~~~
+Rows: 2132 Columns: 7
+~~~
+{: .output}
 
 
-> ## Exercise: low emissions
-> Find the 3 countries with lowest per capita emissions. **Hint:** use the `arrange()` function.
->
-> > ## Solution
-> > 
-> > ~~~
-> > gapminder_co2 %>% arrange(per_capita_emissions)  
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error: arrange() failed at implicit mutate() step. 
-> > * Problem with `mutate()` column `..1`.
-> > ℹ `..1 = per_capita_emissions`.
-> > ✖ object 'per_capita_emissions' not found
-> > ~~~
-> > {: .error}
-> {: .solution}
->
-> Create a bar chart for the per capita emissions for just those three countries.
-> > ## Solution
-> > 
-> > ~~~
-> > gapminder_co2 %>% filter(country == "Haiti" | country == "Paraguay" | country == "Nicaragua") %>%  
-> > ggplot(aes(x = country, y = per_capita_emissions)) +  
-> > geom_col()
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error in FUN(X[[i]], ...): object 'per_capita_emissions' not found
-> > ~~~
-> > {: .error}
-> > 
-> > <img src="../fig/rmd-04-unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" width="612" style="display: block; margin: auto;" />
-> {: .solution}
->
-> Reorder them in descending order. **Hint:** use the `reorder()` function.
-> > ## Solution
-> > 
-> > ~~~
-> > gapminder_co2 %>% filter(country == "Haiti" | country == "Paraguay" | country == "Nicaragua") %>%  
-> > ggplot(aes(x = reorder(country, - per_capita_emissions), y = per_capita_emissions)) +  
-> > geom_col()
-> > ~~~
-> > {: .language-r}
-> > 
-> > 
-> > 
-> > ~~~
-> > Error in tapply(X = X, INDEX = x, FUN = FUN, ...): object 'per_capita_emissions' not found
-> > ~~~
-> > {: .error}
-> > 
-> > <img src="../fig/rmd-04-unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" width="612" style="display: block; margin: auto;" />
-> {: .solution}
-{: .challenge}
+
+~~~
+── Column specification ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+Delimiter: ","
+chr (4): country, series, footnotes, source
+dbl (3): region, year, value
+~~~
+{: .output}
+
+
+
+~~~
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+~~~
+{: .output}
+
+
+~~~
+# Join the two data frames
+gapminder_co2 <- inner_join(gapminder_data, co2_emissions, by="country")
+
+# Plot
+ggplot(gapminder_co2, aes(x=gdpPercap, y=per_capita)) +
+  geom_point() +
+  labs(x="GDP (per capita)",
+       y="CO2 emitted (per capita)",
+       title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces"
+  ) +
+  geom_smooth(method="lm")
+~~~
+{: .language-r}
+
+
+
+~~~
+`geom_smooth()` using formula 'y ~ x'
+~~~
+{: .output}
+
+<img src="../fig/rmd-04-joinAndPlotDataFrames-1.png" title="plot of chunk joinAndPlotDataFrames" alt="plot of chunk joinAndPlotDataFrames" width="612" style="display: block; margin: auto;" />
+
+
+~~~
+# Table
+gapminder_co2 %>%
+  mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south")) %>%
+  mutate(totalPercent = total/sum(total)*100,
+         popPercent = pop/sum(pop)*100) %>%
+  group_by(region) %>%
+  summarize(sumTotalPercent = sum(totalPercent),
+            sumPopPercent = sum(popPercent))
+~~~
+{: .language-r}
+
+
+
+~~~
+# A tibble: 2 × 3
+  region sumTotalPercent sumPopPercent
+  <chr>            <dbl>         <dbl>
+1 north             88.2          49.7
+2 south             11.8          50.3
+~~~
+{: .output}
