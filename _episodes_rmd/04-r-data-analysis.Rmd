@@ -259,14 +259,15 @@ gapminder_data %>%
 
 This will add a new column called "gdp" to our data. We use the column names as if they were regular values that we want to perform mathematical operations on and provide the name in front of an equals sign like we have done with `summarize()`
 
-> Exercise: `mutate()`
+> ## Exercise: `mutate()`
 > We can also multiply by constants or other numbers using mutate - remember how in the plotting lesson we made a plot with population in millions? Try making a new column for this dataframe called popInMillions that is the population in million.
 >
-> > Solution:
+> > ## Solution:
 > > ```{r mutateExercise}  
 > > gapminder_data %>%  
 > > mutate(gdp = pop * gdpPercap, popInMillions = pop / 1000000)  
 > > ```  
+> >
 > {: .solution}
 {: .challenge}
 
@@ -289,10 +290,10 @@ gapminder_data %>%
   select(-continent)
 ```
 
-> Exercise: selecting columns
+> ## Exercise: selecting columns
 > Create a dataframe with only the `country`, `continent`, `year`, and `lifeExp` columns.
 >
-> > Solution:
+> > ## Solution:
 > > There are multiple ways to do this exercise. Here are two different possibilities.
 > >
 > > ```{r selectExerciseOption1}
@@ -303,6 +304,7 @@ gapminder_data %>%
 > > gapminder_data %>%
 > >   select(-pop, -gdpPercap)
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
@@ -353,15 +355,16 @@ Notice here that we tell `pivot_wider()` which columns to pull the names we wish
 
 Before we move on to more data cleaning, let's create the final gapminder dataframe we will be working with for the rest of the lesson!
 
-> Exercise: final Americas 2007 gapminder dataset
+> ## Exercise: final Americas 2007 gapminder dataset
 > Read in the `gapminder_data.csv` file, filter out the year 2007 and the continent "Americas." Then drop the `year` and `continent` columns from the dataframe. Then save the new dataframe into a variable called `gapminder_data_2007`.
 >
-> > Solution:
+> > ## Solution:
 > > ```{r LoadGapminder2007A}
 > > gapminder_data_2007 <- read_csv("data/gapminder_data.csv") %>%
 > >   filter(year == 2007 & continent == "Americas") %>%
 > >   select(-year, -continent)
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
@@ -427,8 +430,13 @@ read_csv("data/co2-un-data.csv", skip=1)
 
 Now we get a similar Warning message as before, but the outputted table looks better.
 
-> **Warnings and Errors:**It's important to differentiate between Warnings and Errors in R. A warning tells us, "you might want to know about this issue, but R still did what you asked". An error tells us, "there's something wrong with your code or your data and R didn't do what you asked". You need to fix any errors that arise. Warnings, are probably best to resolve or at least understand why they are coming up.
-{.callout}
+> ## Warnings and Errors:
+> It's important to differentiate between Warnings and Errors in R.
+> - A __warning__ tells us, "you might want to know about this issue, but R still did what you asked".
+> - An __error__ tells us, "there's something wrong with your code or your data and R didn't do what you asked".
+>
+> You need to fix any errors that arise. Warnings, are probably best to resolve or at least understand why they are coming up.
+{: .callout}
 
 We can resolve this warning by telling `read_csv()` what the column names should be with the `col_names()` argument where we give it the column names we want within the c() function separated by commas. If we do this, then we need to set skip to 2 to also skip the column headings.
 
@@ -443,7 +451,7 @@ read_csv("data/co2-un-data.csv", skip=2,
 >
 > ```{r CleanEmissionsRename}
 > read_csv("data/co2-un-data.csv", skip=1) %>%
->   rename(country=X2)
+>   rename(country=`...2`)
 > ```
 >
 > Many data analysts prefer to have their column headings and variable names be in all lower case. We can use a variation of `rename()`, which is `rename_all()` that allows us to set all of the column headings to lower case by giving it the name of the tolower function, which makes everything lowercase.
@@ -456,15 +464,16 @@ read_csv("data/co2-un-data.csv", skip=2,
 
 We previously saw how we can subset columns from a data frame using the select function. There are a lot of columns with extraneous information in this dataset, let's subset out the columns we are interested in.
 
-> Exercise: reviewing selecting columns
+> ## Exercise: reviewing selecting columns
 > Select the country, year, series, and value columns from our dataset.
 >
-> > Solution:
+> > ## Solution:
 > > ```{r CleanEmissionsSelect}
 > > read_csv("data/co2-un-data.csv", skip=2,
 > >          col_names=c("region", "country", "year", "series", "value", "footnotes", "source")) %>%
 > >   select(country, year, series, value)
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
@@ -509,10 +518,10 @@ Excellent! The last step before we can join this data frame is to get the most d
 {: .solution}
 
 
-> Exercise:
+> ## Exercise:
 > Filter out data from 2005 and then drop the year column. (Since we will have only data from one year, it is now irrelevant.)
 >
-> > Solution:
+> > ## Solution:
 > > ```{r CleanEmissionsByYear}
 > > read_csv("data/co2-un-data.csv", skip=2,
 > >         col_names=c("region", "country", "year", "series", "value", "footnotes", "source")) %>%
@@ -523,6 +532,7 @@ Excellent! The last step before we can join this data frame is to get the most d
 > >  filter(year==2005) %>%
 > >  select(-year)
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
@@ -540,8 +550,12 @@ co2_emissions <- read_csv("data/co2-un-data.csv", skip=2,
   select(-year)
 ```
 
-> **Looking at your data:** You can get a look at your data-cleaning hard work by navigating to the **Environment** tab in RStudio and clicking the table icon next to the variable name. Notice when we do this, RStudio automatically runs the `View()` command. We've made a lot of progress!
-{.callout}
+> ## Looking at your data
+> You can get a look at your data-cleaning hard work by navigating to the **Environment**
+> tab in RStudio and clicking the table icon next to the variable name.
+> Notice when we do this, RStudio automatically runs the `View()` command.
+> We've made a lot of progress!
+{: .callout}
 
 # Joining data frames {#joining-data-frames}
 
@@ -745,13 +759,14 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 
 > ## Exercise: changing directories
 > Print your current working directory and list the items in the directory to check where you are. If you are not in the un-report directory, navigate there.
-> > Solution:
+> > ## Solution:
 > > ```
 > > pwd  
 > > ls
 > > cd ~/Desktop/un-report  
 > > ls
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
@@ -759,7 +774,7 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 >
 > Pull to make sure our local repository is up to date. Then add, commit, and push your commits to GitHub. Don't forget to check your git status periodically to make sure everything is going as expected!
 >
-> > Solution:
+> > ## Solution:
 > > ```
 > > git status
 > > git pull
@@ -772,120 +787,70 @@ Awesome work! Let's make sure it doesn't go to waste. Time to add, commit, and p
 > > git push
 > > git status
 > > ```
+> >
 > {: .solution}
 {: .challenge}
 
 
-# Bonus
+# Putting it all together
+_[Back to top](#contents)_
 
-## Bonus content
+We've gone through many steps of cleaning, joining, and analyzing our data.
+As a challenge, create an RScript file that contains the code to clean up the
+gapminder and CO2 emissions data, joins the two data frames, and builds the
+plot and summary table comparing Canada, the United States, and Mexico to the
+rest of the Americas. You can even practice some of the `ggplot` skills you
+learned earlier to move that plot beyond the ggplot2 defaults.
 
-### Sort data with `arrange()`
-
-The `arrange()` function allows us to sort our data by some value. Let's use the `gapminder_data` dataframe. We will take the average value for each continent in 2007 and then sort it so the continents with the longest life expectancy are on top. Which continent might you guess has be highest life expectancy before running the code?
-
-The helper function `ends_with()` can help us here.
-```{r GapLifeContinentArrange}
-gapminder_data %>%
- filter(year==2007) %>%
- group_by(continent) %>%
- summarise(average= mean(lifeExp)) %>%
- arrange(desc(average))
+```{r prepareGapminderData}
+# Load and prepare gapminder data
+gapminder_co2 %>%
+  mutate(region = if_else(country == "Canada" |
+                            country == "United States" |
+                            country == "Mexico", "north", "south")) %>%
+  group_by(region) %>%
+  summarize(sumtotal = sum(total),
+            sumpop = sum(pop))
 ```
 
-Notice there that we can use the column created the in the `summarize()` step ("average") later in the `arrange()` step. We also use the `desc()` function here to sort the values in a descending order so the largest values are on top. The default is to put the smallest values on top.
+```{r prepareCo2Data}
+# Load and prepare co2 emissions data
+co2_emissions <- read_csv("data/co2-un-data.csv", skip=2,
+                          col_names=c("region", "country", "year", "series", "value", "footnotes", "source")) %>%
+  select(country, year, series, value) %>%
+  mutate(series = recode(series, "Emissions (thousand metric tons of carbon dioxide)" = "total",
+                         "Emissions per capita (metric tons of carbon dioxide)" = "per_capita")) %>%
+  pivot_wider(names_from=series, values_from=value) %>%
+  filter(year==2005) %>%
+  select(-year) %>%
+  mutate(country=recode(country,
+                        "Bolivia (Plurin. State of)" = "Bolivia",
+                        "United States of America" = "United States",
+                        "Venezuela (Boliv. Rep. of)" = "Venezuela")
+  )
+```
 
+```{r joinAndPlotDataFrames}
+# Join the two data frames
+gapminder_co2 <- inner_join(gapminder_data, co2_emissions, by="country")
 
-## Bonus exercises
+# Plot
+ggplot(gapminder_co2, aes(x=gdpPercap, y=per_capita)) +
+  geom_point() +
+  labs(x="GDP (per capita)",
+       y="CO2 emitted (per capita)",
+       title="There is a strong association between a nation's GDP \nand the amount of CO2 it produces"
+  ) +
+  geom_smooth(method="lm")
+```
 
-> ## Exercise: Calculating percent
->
-> What percentage of the population and CO2 emissions in the Americas does the United States make up? What percentage of the population and CO2 emission does North America make up?
->
-> > ## Solution
-> >
-> > Create a new variable using `mutate()` that calculates percentages for the pop and total variables.
-> >
-> > ```{r PopPercExercise}
-> > gapminder_co2 %>%
-> >   mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south")) %>%
-> >   mutate(totalPercent = total/sum(total)*100,
-> >          popPercent = pop/sum(pop)*100)
-> > ```
-> >
-> > This table shows that the United states makes up 33% of the population of the Americas, but accounts for 77% of total emissions. Now let's take a look at population and emission for the two different continents:
-> >
-> > ```{r}
-> > gapminder_co2 %>%
-> >   mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south")) %>%
-> >   mutate(totalPercent = total/sum(total)*100,
-> >          popPercent = pop/sum(pop)*100) %>%
-> >   group_by(region) %>%
-> >   summarize(sumTotalPercent = sum(totalPercent),
-> >             sumPopPercent = sum(popPercent))
-> > ```
-> >
-> {: .solution}
-{: .challenge}
-
-
-
-> ## Exercise: CO2 bar plot
-> Create a bar plot of the percent of emissions for each country, colored by north and south america (HINT: use geom_col())  
-> > ## Solution
-> > ```{r}
-> > gapminder_co2 %>% ggplot(aes(x = country, y = total_emissionsPercent, fill = region)) +  
-> > geom_col()  
-> > ```
-> {: .solution}
->
-> Now rotate the x-labels by 90 degrees (if you don't remember how, google it again or look at our code from the ggplot lesson)  
->
-> > ## Solution
-> > ```{r}
-> > gapminder_co2 %>% ggplot(aes(x = country, y = total_emissionsPercent, fill = region)) +  
-> > geom_col() +  
-> > theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
-> > ```
-> {: .solution}
->
-> Reorder the bars in descending order. **Hint:** try Googling how to use the `reorder()` function with ggplot.
-> > ## Solution
-> > ```{r}
-> > gapminder_co2 %>% ggplot(aes(x = reorder(country, - total_emissionsPercent), y = total_emissionsPercent, fill = region)) +  
-> > geom_col() +  
-> > theme(axis.text.x = element_text(angle = 90, hjust = 1, vjust = 0.5))
-> > ```
-> {: .solution}
->
-> Practice making it look pretty!
-{: .challenge}
-
-
-> ## Exercise: low emissions
-> Find the 3 countries with lowest per capita emissions. **Hint:** use the `arrange()` function.
->
-> > ## Solution
-> > ```{r}
-> > gapminder_co2 %>% arrange(per_capita_emissions)  
-> > ```
-> {: .solution}
->
-> Create a bar chart for the per capita emissions for just those three countries.
-> > ## Solution
-> > ```{r}
-> > gapminder_co2 %>% filter(country == "Haiti" | country == "Paraguay" | country == "Nicaragua") %>%  
-> > ggplot(aes(x = country, y = per_capita_emissions)) +  
-> > geom_col()
-> > ```
-> {: .solution}
->
-> Reorder them in descending order. **Hint:** use the `reorder()` function.
-> > ## Solution
-> > ```{r}
-> > gapminder_co2 %>% filter(country == "Haiti" | country == "Paraguay" | country == "Nicaragua") %>%  
-> > ggplot(aes(x = reorder(country, - per_capita_emissions), y = per_capita_emissions)) +  
-> > geom_col()
-> > ```
-> {: .solution}
-{: .challenge}
+```{r summarizeJoinedTable}
+# Table
+gapminder_co2 %>%
+  mutate(region = if_else(country == "Canada" | country == "United States" | country == "Mexico", "north", "south")) %>%
+  mutate(totalPercent = total/sum(total)*100,
+         popPercent = pop/sum(pop)*100) %>%
+  group_by(region) %>%
+  summarize(sumTotalPercent = sum(totalPercent),
+            sumPopPercent = sum(popPercent))
+```

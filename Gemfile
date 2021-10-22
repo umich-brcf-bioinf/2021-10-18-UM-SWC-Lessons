@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
-# OSX and IP6 get tangled with OpenSSL, so disable https to allow build
+# "Some" VPNs (e.g. UMHS VPN) may balk at when downloading packages via https
+# from rubygems. If ruby complains about not being able to download you could
+# a) Temporarily suspend your VPN
+# b) Switch to a more permissive VPN
+# c) Switch the source to use http instead of https. Like so:
+#    source 'http://rubygems.org'
 # cgates 10/15/2021
 source 'https://rubygems.org'
 #source 'http://rubygems.org'
